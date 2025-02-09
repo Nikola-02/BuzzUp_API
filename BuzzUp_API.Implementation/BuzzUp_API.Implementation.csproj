@@ -1,9 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="BCrypt.Net" Version="0.1.0" />
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuzzUp_API.Application\BuzzUp_API.Application.csproj" />
+    <ProjectReference Include="..\BuzzUp_API.DataAccess\BuzzUp_API.DataAccess.csproj" />
+    <ProjectReference Include="..\BuzzUp_API.Domain\BuzzUp_API.Domain.csproj" />
+  </ItemGroup>
 
 </Project>
