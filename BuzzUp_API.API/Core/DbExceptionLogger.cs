@@ -1,4 +1,5 @@
-﻿using BuzzUp_API.DataAccess;
+﻿using BuzzUp_API.Application;
+using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
 
 namespace BuzzUp_API.API.Core

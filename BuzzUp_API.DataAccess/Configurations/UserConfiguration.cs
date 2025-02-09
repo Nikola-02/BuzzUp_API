@@ -18,7 +18,7 @@ namespace BuzzUp_API.DataAccess.Configurations
                 .HasMaxLength(30);
 
             builder
-                .HasIndex(x => x.Username)
+                .HasIndex(x => new { x.Username, x.IsActive })
                 .IsUnique();
 
             builder
@@ -27,7 +27,7 @@ namespace BuzzUp_API.DataAccess.Configurations
                 .HasMaxLength(30);
 
             builder
-                .HasIndex(x => x.FirstName);
+                .HasIndex(x => new { x.FirstName, x.IsActive });
 
             builder
                 .Property(x => x.LastName)
@@ -35,14 +35,14 @@ namespace BuzzUp_API.DataAccess.Configurations
                 .HasMaxLength(30);
 
             builder
-                .HasIndex(x => x.LastName);
+                .HasIndex(x => new { x.LastName, x.IsActive });
 
             builder
                 .Property(x => x.Email)
                 .HasMaxLength(50);
 
             builder
-                .HasIndex(x => x.Email)
+                .HasIndex(x => new { x.Email, x.IsActive })
                 .IsUnique();
 
             builder

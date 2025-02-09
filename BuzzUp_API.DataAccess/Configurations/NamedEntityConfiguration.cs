@@ -19,8 +19,10 @@ namespace BuzzUp_API.DataAccess.Configurations
                    .IsRequired()
                    .HasMaxLength(30);
 
-            builder.HasIndex(x => x.Name)
-                   .IsUnique();
+            builder
+                .HasIndex(x => new { x.Name, x.IsActive })
+                .IsUnique();
+
         }
     }
 }

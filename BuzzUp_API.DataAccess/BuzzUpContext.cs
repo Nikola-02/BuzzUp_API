@@ -6,6 +6,11 @@ namespace BuzzUp_API.DataAccess
 {
     public class BuzzUpContext : DbContext
     {
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserUseCase> UserUseCases { get; set; }
+        public DbSet<UseCaseLog> UseCaseLogs { get; set; }
+        public DbSet<ErrorLog> ErrorLogs { get; set; }
+
         private readonly string _connectionString;
 
         public BuzzUpContext(string connectionString)
@@ -28,11 +33,11 @@ namespace BuzzUp_API.DataAccess
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
-            //modelBuilder.Entity<UserUseCase>().HasKey(x => new
-            //{
-            //    x.UserId,
-            //    x.UseCaseId
-            //});
+            modelBuilder.Entity<UserUseCase>().HasKey(x => new
+            {
+                x.UserId,
+                x.UseCaseId
+            });
 
             base.OnModelCreating(modelBuilder);
         }

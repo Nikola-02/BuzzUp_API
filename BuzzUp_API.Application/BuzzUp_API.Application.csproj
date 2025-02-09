@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <Folder Include="DTO\" />
+    <Folder Include="UseCases\Commands\" />
+    <Folder Include="UseCases\Queries\" />
   </ItemGroup>
 
 </Project>
