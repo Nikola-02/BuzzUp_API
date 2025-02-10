@@ -1,5 +1,8 @@
 using BuzzUp_API.API;
+using BuzzUp_API.API.Core;
 using BuzzUp_API.DataAccess;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,10 @@ builder.Services.AddSwaggerGen();
 
 //context
 builder.Services.AddTransient<BuzzUpContext>(x => new BuzzUpContext(settings.ConnectionString));
+builder.Services.AddScoped<IDbConnection>(x => new SqlConnection(settings.ConnectionString));
+
+builder.Services.AddUseCases();
+builder.Services.AddAutoMapperProfiles();
 
 builder.Services.AddHttpContextAccessor();
 

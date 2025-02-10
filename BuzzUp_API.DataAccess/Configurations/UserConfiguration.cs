@@ -1,4 +1,5 @@
 ﻿using BuzzUp_API.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace BuzzUp_API.DataAccess.Configurations
 
             builder
                 .Property(x => x.Email)
+                .IsRequired()
                 .HasMaxLength(50);
 
             builder
@@ -52,23 +54,23 @@ namespace BuzzUp_API.DataAccess.Configurations
 
             builder
                 .Property(x => x.Country)
-                .IsRequired()
                 .HasMaxLength(20);
 
             builder
                 .Property(x => x.City)
-                .IsRequired()
                 .HasMaxLength(20);
 
             builder
                 .Property(x => x.Workplace)
-                .IsRequired()
                 .HasMaxLength(20);
 
             builder
                 .Property(x => x.University)
-                .IsRequired()
                 .HasMaxLength(20);
+
+            builder
+                .Property(x => x.IsOnline)
+                .HasDefaultValue(false);
         }
     }
 }
