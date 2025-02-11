@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BuzzUp_API.Domain
 {
-    public class ReactionType : NamedEntity
+    public class FeelingType : NamedEntity
     {
         public string Icon { get; set; }
-        public virtual ICollection<Reaction> Reactions { get; set; } = new HashSet<Reaction>();
+        public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     }
 }

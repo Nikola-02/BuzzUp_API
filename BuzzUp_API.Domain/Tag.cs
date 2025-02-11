@@ -8,5 +8,6 @@ namespace BuzzUp_API.Domain
 {
     public class Tag : NamedEntity
     {
+        public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
     }
 }

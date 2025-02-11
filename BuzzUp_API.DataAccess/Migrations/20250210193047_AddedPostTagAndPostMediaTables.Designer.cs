@@ -4,6 +4,7 @@ using BuzzUp_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuzzUp_API.DataAccess.Migrations
 {
     [DbContext(typeof(BuzzUpContext))]
-    partial class BuzzUpContextModelSnapshot : ModelSnapshot
+    [Migration("20250210193047_AddedPostTagAndPostMediaTables")]
+    partial class AddedPostTagAndPostMediaTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,40 +127,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("FriendRequestStatus");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Friendship", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("FriendRequestStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FriendRequestStatusId");
-
-                    b.ToTable("Friendship");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.Post", b =>
@@ -325,42 +294,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("PostTag");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Reaction", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<int>("ReactionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("ReactionTypeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reaction");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.ReactionType", b =>
@@ -563,37 +496,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.UserFriendship", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FriendshipId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UserId", "FriendshipId");
-
-                    b.HasIndex("FriendshipId");
-
-                    b.ToTable("UserFriendship");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.UserUseCase", b =>
                 {
                     b.Property<int>("UserId")
@@ -642,17 +544,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("VisibilityType");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Friendship", b =>
-                {
-                    b.HasOne("BuzzUp_API.Domain.FriendRequestStatus", "FriendRequestStatus")
-                        .WithMany("Friendships")
-                        .HasForeignKey("FriendRequestStatusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("FriendRequestStatus");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.Post", b =>
@@ -708,52 +599,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.Reaction", b =>
-                {
-                    b.HasOne("BuzzUp_API.Domain.Post", "Post")
-                        .WithMany("Reactions")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BuzzUp_API.Domain.ReactionType", "ReactionType")
-                        .WithMany("Reactions")
-                        .HasForeignKey("ReactionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BuzzUp_API.Domain.User", "User")
-                        .WithMany("Reactions")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("ReactionType");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.UserFriendship", b =>
-                {
-                    b.HasOne("BuzzUp_API.Domain.Friendship", "Friendship")
-                        .WithMany("Users")
-                        .HasForeignKey("FriendshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BuzzUp_API.Domain.User", "User")
-                        .WithMany("Friendships")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Friendship");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.UserUseCase", b =>
                 {
                     b.HasOne("BuzzUp_API.Domain.User", "User")
@@ -770,38 +615,14 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.FriendRequestStatus", b =>
-                {
-                    b.Navigation("Friendships");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Friendship", b =>
-                {
-                    b.Navigation("Users");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.Post", b =>
                 {
                     b.Navigation("PostMedias");
-
-                    b.Navigation("Reactions");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.PostMediaType", b =>
                 {
                     b.Navigation("PostMedias");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.ReactionType", b =>
-                {
-                    b.Navigation("Reactions");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.User", b =>
-                {
-                    b.Navigation("Friendships");
-
-                    b.Navigation("Reactions");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.VisibilityType", b =>

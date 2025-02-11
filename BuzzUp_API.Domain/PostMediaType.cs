@@ -8,5 +8,6 @@ namespace BuzzUp_API.Domain
 {
     public class PostMediaType : NamedEntity
     {
+        public virtual ICollection<PostMedia> PostMedias { get; set; } = new HashSet<PostMedia>();
     }
 }

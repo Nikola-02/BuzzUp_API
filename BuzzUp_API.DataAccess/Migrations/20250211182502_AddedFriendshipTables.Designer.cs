@@ -4,6 +4,7 @@ using BuzzUp_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuzzUp_API.DataAccess.Migrations
 {
     [DbContext(typeof(BuzzUpContext))]
-    partial class BuzzUpContextModelSnapshot : ModelSnapshot
+    [Migration("20250211182502_AddedFriendshipTables")]
+    partial class AddedFriendshipTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

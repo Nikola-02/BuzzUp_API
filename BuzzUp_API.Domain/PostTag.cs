@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BuzzUp_API.Domain
 {
-    public class FriendRequestStatus : NamedEntity
+    public class PostTag : CompositeEntity
     {
-        public virtual ICollection<Friendship> Friendships { get; set; } = new HashSet<Friendship>();
+        public int PostId { get; set; }
+        public int TagId { get; set; }
     }
 }
