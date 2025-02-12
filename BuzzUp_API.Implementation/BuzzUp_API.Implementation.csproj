@@ -19,4 +19,12 @@
     <ProjectReference Include="..\BuzzUp_API.Domain\BuzzUp_API.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Commands\" />
+    <Folder Include="UseCases\Queries\" />
+    <Folder Include="Validators\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Profiles\" />
+  </ItemGroup>
+
 </Project>
