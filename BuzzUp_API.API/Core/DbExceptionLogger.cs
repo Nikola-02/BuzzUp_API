@@ -4,7 +4,7 @@ using BuzzUp_API.Domain;
 
 namespace BuzzUp_API.API.Core
 {
-    public class DbExceptionLogger
+    public class DbExceptionLogger : IExceptionLogger
     {
         private readonly BuzzUpContext _buzzUpContext;
 

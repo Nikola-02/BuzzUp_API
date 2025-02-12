@@ -25,5 +25,6 @@ namespace BuzzUp_API.Domain
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
         public virtual ICollection<UserChat> UserChats { get; set; } = new HashSet<UserChat>();
+        public virtual ICollection<UserUseCase> UseCases { get; set; } = new HashSet<UserUseCase>();
     }
 }

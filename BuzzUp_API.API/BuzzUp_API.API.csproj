@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Validation\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
