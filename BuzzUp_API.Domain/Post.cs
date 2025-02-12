@@ -18,5 +18,7 @@ namespace BuzzUp_API.Domain
         public virtual ICollection<PostMedia> PostMedias { get; set; } = new HashSet<PostMedia>();
         public virtual ICollection<Tag> Tags { get; set; } = new HashSet<Tag>();
         public virtual ICollection<Reaction> Reactions { get; set; } = new HashSet<Reaction>();
+        public virtual ICollection<User> SavedByUsers { get; set; } = new HashSet<User>();
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }

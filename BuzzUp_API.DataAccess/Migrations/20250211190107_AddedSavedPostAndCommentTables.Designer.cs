@@ -4,6 +4,7 @@ using BuzzUp_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuzzUp_API.DataAccess.Migrations
 {
     [DbContext(typeof(BuzzUpContext))]
-    partial class BuzzUpContextModelSnapshot : ModelSnapshot
+    [Migration("20250211190107_AddedSavedPostAndCommentTables")]
+    partial class AddedSavedPostAndCommentTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,35 +27,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Chat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Chat");
-                });
 
             modelBuilder.Entity("BuzzUp_API.Domain.Comment", b =>
                 {
@@ -240,51 +214,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.HasIndex("FriendRequestStatusId");
 
                     b.ToTable("Friendship");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChatId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.Post", b =>
@@ -721,37 +650,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.UserChat", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ChatId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UserId", "ChatId");
-
-                    b.HasIndex("ChatId");
-
-                    b.ToTable("UserChat");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.UserFriendship", b =>
                 {
                     b.Property<int>("UserId")
@@ -870,25 +768,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("FriendRequestStatus");
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.Message", b =>
-                {
-                    b.HasOne("BuzzUp_API.Domain.Chat", "Chat")
-                        .WithMany("Messages")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BuzzUp_API.Domain.User", "Sender")
-                        .WithMany("Messages")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-
-                    b.Navigation("Sender");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.Post", b =>
                 {
                     b.HasOne("BuzzUp_API.Domain.FeelingType", "FeelingType")
@@ -988,25 +867,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.UserChat", b =>
-                {
-                    b.HasOne("BuzzUp_API.Domain.Chat", "Chat")
-                        .WithMany("UserChats")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BuzzUp_API.Domain.User", "User")
-                        .WithMany("UserChats")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.UserFriendship", b =>
                 {
                     b.HasOne("BuzzUp_API.Domain.Friendship", "Friendship")
@@ -1035,13 +895,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Chat", b =>
-                {
-                    b.Navigation("Messages");
-
-                    b.Navigation("UserChats");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.Comment", b =>
@@ -1089,11 +942,7 @@ namespace BuzzUp_API.DataAccess.Migrations
 
                     b.Navigation("Friendships");
 
-                    b.Navigation("Messages");
-
                     b.Navigation("Reactions");
-
-                    b.Navigation("UserChats");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.VisibilityType", b =>

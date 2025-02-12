@@ -21,5 +21,9 @@ namespace BuzzUp_API.Domain
         public bool IsOnline { get; set; }
         public virtual ICollection<Reaction> Reactions { get; set; } = new HashSet<Reaction>();
         public virtual ICollection<UserFriendship> Friendships { get; set; } = new HashSet<UserFriendship>();
+        public virtual ICollection<Post> SavedPosts { get; set; } = new HashSet<Post>();
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+        public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
+        public virtual ICollection<UserChat> UserChats { get; set; } = new HashSet<UserChat>();
     }
 }
