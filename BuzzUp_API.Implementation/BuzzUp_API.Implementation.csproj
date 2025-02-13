@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Commands\" />
     <Folder Include="UseCases\Queries\" />
-    <Folder Include="Validators\" />
     <Folder Include="Utilities\" />
     <Folder Include="Profiles\" />
   </ItemGroup>

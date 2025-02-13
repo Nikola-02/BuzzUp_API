@@ -19,10 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Validation\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\temp\" />
   </ItemGroup>
 
   <ItemGroup>

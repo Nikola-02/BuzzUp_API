@@ -2,6 +2,11 @@
 using BuzzUp_API.Implementation.Logging.UseCases;
 using BuzzUp_API.Implementation;
 using System.IdentityModel.Tokens.Jwt;
+using BuzzUp_API.Application.UseCases.Commands.Account;
+using BuzzUp_API.Implementation.UseCases.Commands.Account;
+using BuzzUp_API.Application.DTO.Users;
+using BuzzUp_API.Implementation.Validators.User;
+using static BuzzUp_API.Implementation.Validators.User.BaseUserValidator;
 
 namespace BuzzUp_API.API.Core
 {
@@ -20,10 +25,12 @@ namespace BuzzUp_API.API.Core
             
             //Commands
             //User
-            //services.AddTransient<IRegisterUserCommand, EfRegisterUserCommand>();
+            services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
 
             //Validators
-            //services.AddTransient<UserInsertDtoValidator>();
+            services.AddTransient<BaseUserValidator>();
+            services.AddTransient<UserInsertValidator>();
+            services.AddTransient<UserUpdateValidator>();
         }
 
         public static void AddAutoMapperProfiles(this IServiceCollection services)

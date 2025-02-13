@@ -1,5 +1,6 @@
 ﻿using BuzzUp_API.Application.Exceptions;
 using BuzzUp_API.Application;
+using FluentValidation;
 
 namespace BuzzUp_API.API.Core
 {
