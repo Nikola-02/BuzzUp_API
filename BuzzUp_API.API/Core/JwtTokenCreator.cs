@@ -20,11 +20,12 @@ namespace BuzzUp_API.API.Core
             _storage = storage;
         }
 
-        public string Create(string email, string password)
+        public string Create(string username, string password)
         {
-            var user = _context.Users.Where(x => x.Email == email).Select(x => new
+            var user = _context.Users.Where(x => x.Username == username).Select(x => new
             {
                 x.Username,
+                x.Email,
                 x.Password,
                 x.FirstName,
                 x.LastName,
@@ -52,6 +53,7 @@ namespace BuzzUp_API.API.Core
                  new Claim(JwtRegisteredClaimNames.Iss, _settings.Issuer, ClaimValueTypes.String),
                  new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
                  new Claim("Username", user.Username),
+                 new Claim("Email", user.Email),
                  new Claim("FirstName", user.FirstName),
                  new Claim("LastName", user.LastName),
                  new Claim("Id", user.Id.ToString()),
