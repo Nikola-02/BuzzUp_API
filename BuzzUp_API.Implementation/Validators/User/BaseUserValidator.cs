@@ -48,11 +48,6 @@ namespace BuzzUp_API.Implementation.Validators.User
         {
             public UserUpdateValidator(BuzzUpContext ctx) : base(ctx)
             {
-                RuleFor(x => x.Password)
-                    .Matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")
-                    .WithMessage("Password is not in right format. Minimum eight characters, at least one uppercase letter, one lowercase letter and one number")
-                    .When(x => !string.IsNullOrEmpty(x.Password));
-
                 //Ako je must false onda ce vratiti gresku withMessage
                 RuleFor(x => x.Email)
                     .Must((dto, x) => !ctx.Users.Any(u => u.Email == x && u.IsActive && u.DeletedAt == null && u.Id != dto.Id))
@@ -68,13 +63,6 @@ namespace BuzzUp_API.Implementation.Validators.User
         {
             public UserInsertValidator(BuzzUpContext ctx) : base(ctx)
             {
-                RuleFor(x => x.Password)
-                    .NotEmpty()
-                    .WithMessage("Password is required.")
-                    .Matches("^(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{8,}$")
-                    .WithMessage("Password is not in right format. Minimum eight characters, at least one uppercase letter, one lowercase letter and one number");
-
-
                 //Ako je must false onda ce vratiti gresku withMessage
                 RuleFor(x => x.Email)
                     .Must(x => !ctx.Users.Any(u => u.Email == x && u.IsActive && u.DeletedAt == null))
