@@ -16,7 +16,10 @@ var settings = new AppSettings();
 
 builder.Configuration.Bind(settings); //mapira podatke iz appsettings.json u objekat settings
 
+builder.Services.AddSingleton(settings);
 builder.Services.AddSingleton(settings.Jwt);
+builder.Services.AddSingleton(settings.Email);
+builder.Services.AddSingleton(settings.Frontend);
 
 
 builder.Services.AddControllers();

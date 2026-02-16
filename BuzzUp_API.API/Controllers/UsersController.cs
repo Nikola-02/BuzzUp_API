@@ -41,10 +41,29 @@ namespace BuzzUp_API.API.Controllers
 
         // POST api/<AuthController>
         [HttpPost("register")]
-        public IActionResult Register([FromBody] UserInsertUpdateDTO userDto, [FromServices] IRegisterUserCommand command)
+        public IActionResult Register([FromForm] UserInsertUpdateDTO userDto, [FromServices] IRegisterUserCommand command)
         {
             _handler.HandleCommand(command, userDto);
             return StatusCode(201);
+        }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword([FromBody] string email, [FromServices] IForgotPasswordUserCommand command, [FromServices] AppSettings appSettings)
+        {
+            ForgotPasswordDto dto = new ForgotPasswordDto();
+            dto.UserEmail = email;
+            dto.SmtpEmail = appSettings.Email.SmtpUser;
+            dto.SmtpPassword = appSettings.Email.SmtpPass;
+            dto.ResetPasswordUrl = appSettings.Frontend.ResetPasswordUrl;
+            _handler.HandleCommand(command, dto);
+            return Ok();
+        }
+
+        [HttpPost("reset-password")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordDto dto,[FromServices] IResetPasswordUserCommand command)
+        {
+            _handler.HandleCommand(command, dto);
+            return Ok();
         }
 
         // PUT api/<UsersController>/5

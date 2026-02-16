@@ -26,6 +26,8 @@ namespace BuzzUp_API.API.Core
             //Commands
             //User
             services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
+            services.AddTransient<IForgotPasswordUserCommand, ForgotPasswordUserCommand>();
+            services.AddTransient<IResetPasswordUserCommand, ResetPasswordUserCommand>();
 
             //Validators
             services.AddTransient<BaseUserValidator>();

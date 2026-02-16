@@ -7,9 +7,28 @@ namespace BuzzUp_API.DataAccess
     public class BuzzUpContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Chat> Chats { get; set; }
         public DbSet<UserUseCase> UserUseCases { get; set; }
         public DbSet<UseCaseLog> UseCaseLogs { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<UserFriendship> UserFriendships { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<UserChat> UserChats { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<VisibilityType> VisibilityTypes { get; set; }
+        public DbSet<FeelingType> FeelingTypes { get; set; }
+        public DbSet<ReactionType> ReactionTypes { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
+        public DbSet<FriendRequestStatus> FriendRequestStatuses { get; set; }
+        public DbSet<PostMedia> PostMedias { get; set; }
+        public DbSet<PostMediaType> PostMediaTypes { get; set; }
+        public DbSet<PostTag> PostTags { get; set; }
+        public DbSet<SavedPost> SavedPosts { get; set; }
 
         private readonly string _connectionString;
 

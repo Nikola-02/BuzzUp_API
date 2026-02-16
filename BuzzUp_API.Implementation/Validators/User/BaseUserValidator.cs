@@ -43,35 +43,40 @@ namespace BuzzUp_API.Implementation.Validators.User
                 .WithMessage("Username is required.");
 
         }
-
-        public class UserUpdateValidator : BaseUserValidator
+    }
+    public class UserUpdateValidator : BaseUserValidator
+    {
+        public UserUpdateValidator(BuzzUpContext ctx) : base(ctx)
         {
-            public UserUpdateValidator(BuzzUpContext ctx) : base(ctx)
-            {
-                //Ako je must false onda ce vratiti gresku withMessage
-                RuleFor(x => x.Email)
-                    .Must((dto, x) => !ctx.Users.Any(u => u.Email == x && u.IsActive && u.DeletedAt == null && u.Id != dto.Id))
-                    .WithMessage("Email is already in use.");
+            //Ako je must false onda ce vratiti gresku withMessage
+            RuleFor(x => x.Email)
+                .Must((dto, x) => !ctx.Users.Any(u => u.Email == x && u.IsActive && u.DeletedAt == null && u.Id != dto.Id))
+                .WithMessage("Email is already in use.");
 
-                RuleFor(x => x.Username)
-                    .Must((dto,x) => !ctx.Users.Any(u => u.Username == x && u.IsActive && u.DeletedAt == null && u.Id != dto.Id))
-                    .WithMessage("Username is already in use.");
-            }
+            RuleFor(x => x.Username)
+                .Must((dto, x) => !ctx.Users.Any(u => u.Username == x && u.IsActive && u.DeletedAt == null && u.Id != dto.Id))
+                .WithMessage("Username is already in use.");
         }
-
-        public class UserInsertValidator : BaseUserValidator
+    }
+    public class UserInsertValidator : BaseUserValidator
+    {
+        public UserInsertValidator(BuzzUpContext ctx) : base(ctx)
         {
-            public UserInsertValidator(BuzzUpContext ctx) : base(ctx)
-            {
-                //Ako je must false onda ce vratiti gresku withMessage
-                RuleFor(x => x.Email)
-                    .Must(x => !ctx.Users.Any(u => u.Email == x && u.IsActive && u.DeletedAt == null))
-                    .WithMessage("Email is already in use.");
+            //Ako je must false onda ce vratiti gresku withMessage
+            RuleFor(x => x.Email)
+                .Must(x => !ctx.Users.Any(u => u.Email == x && u.IsActive && u.DeletedAt == null))
+                .WithMessage("Email is already in use.");
 
-                RuleFor(x => x.Username)
-                    .Must(x => !ctx.Users.Any(u => u.Username == x && u.IsActive && u.DeletedAt == null))
-                    .WithMessage("Username is already in use.");
-            }
+            RuleFor(x => x.Username)
+                .Must(x => !ctx.Users.Any(u => u.Username == x && u.IsActive && u.DeletedAt == null))
+                .WithMessage("Username is already in use.");
+
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
+                .Matches("[A-Z]").WithMessage("Password must contain at least one uppercase letter.")
+                .Matches("[0-9]").WithMessage("Password must contain at least one number.")
+                .Matches("[^a-zA-Z0-9]").WithMessage("Password must contain at least one special character.");
         }
     }
 }

@@ -2,6 +2,7 @@
 using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation.Validators.User;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
