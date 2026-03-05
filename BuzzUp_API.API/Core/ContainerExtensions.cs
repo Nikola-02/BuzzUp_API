@@ -6,7 +6,10 @@ using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.Implementation.UseCases.Commands.Account;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Implementation.Validators.User;
-using static BuzzUp_API.Implementation.Validators.User.BaseUserValidator;
+using BuzzUp_API.Application.UseCases.Queries;
+using BuzzUp_API.Implementation.UseCases.Queries.Users;
+using BuzzUp_API.Application.UseCases.Commands.Users;
+using BuzzUp_API.Implementation.UseCases.Commands.Users;
 
 namespace BuzzUp_API.API.Core
 {
@@ -21,25 +24,24 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IUseCaseLogger, SPUseCaseLogger>();
 
             //Queries
-            //services.AddTransient<IGetGenresQuery, EfGetGenresQuery>();
+            //Users
+            services.AddTransient<IGetSingleUserQuery, EfGetSingleUserQuery>();
             
             //Commands
-            //User
+            //Users
             services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();
             services.AddTransient<IForgotPasswordUserCommand, ForgotPasswordUserCommand>();
             services.AddTransient<IResetPasswordUserCommand, ResetPasswordUserCommand>();
-
-            //Validators
-            services.AddTransient<BaseUserValidator>();
-            services.AddTransient<UserInsertValidator>();
-            services.AddTransient<UserUpdateValidator>();
+            services.AddTransient<IUpdateUserCommand, EfUpdateUserCommand>();
         }
 
-        public static void AddAutoMapperProfiles(this IServiceCollection services)
-        {
-            //Profiles
-            //services.AddAutoMapper(typeof(FileTypeProfile));
-        }
+        //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)
+
+        //public static void AddAutoMapperProfiles(this IServiceCollection services)
+        //{
+        //    //Profiles
+        //    //services.AddAutoMapper(typeof(FileTypeProfile));
+        //}
         public static Guid? GetTokenId(this HttpRequest request)
         {
             if (request == null || !request.Headers.ContainsKey("Authorization"))

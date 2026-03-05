@@ -7,6 +7,7 @@ namespace BuzzUp_API.DataAccess
     public class BuzzUpContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<UserUseCase> UserUseCases { get; set; }
         public DbSet<UseCaseLog> UseCaseLogs { get; set; }
@@ -57,6 +58,23 @@ namespace BuzzUp_API.DataAccess
                 x.UserId,
                 x.UseCaseId
             });
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role
+                {
+                    Id = 1,
+                    Name = "Admin",
+                    IsActive = true,
+                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                },
+                new Role
+                {
+                    Id = 2,
+                    Name = "User",
+                    IsActive = true,
+                    CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                }
+            );
 
             base.OnModelCreating(modelBuilder);
         }

@@ -28,7 +28,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
 
             var user = Context.Users.Find(tokenEntity.UserId);
             if (user == null)
-                throw new Exception("User not found.");
+                throw new Exception("Users not found.");
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(data.NewPassword);
 

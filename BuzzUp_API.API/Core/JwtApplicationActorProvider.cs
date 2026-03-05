@@ -33,12 +33,13 @@ namespace BuzzUp_API.API.Core
 
             var actor = new Actor
             {
-                Email = claims.First(x => x.Type == "Username").Value,
+                Email = claims.First(x => x.Type == "Email").Value,
                 Username = claims.First(x => x.Type == "Username").Value,
                 FirstName = claims.First(x => x.Type == "FirstName").Value,
                 LastName = claims.First(x => x.Type == "LastName").Value,
                 Id = int.Parse(claims.First(x => x.Type == "Id").Value),
-                AllowedUseCases = JsonConvert.DeserializeObject<List<int>>(claims.First(x => x.Type == "UseCaseIds").Value)
+                AllowedUseCases = JsonConvert.DeserializeObject<List<int>>(claims.First(x => x.Type == "UseCaseIds").Value),
+                Role = claims.First(x=>x.Type == "Role").Value
             };
 
             return actor;

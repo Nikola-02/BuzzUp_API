@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static BuzzUp_API.Implementation.Validators.User.BaseUserValidator;
 
 namespace BuzzUp_API.Implementation.UseCases.Commands.Account
 {
@@ -25,7 +24,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
 
         public string Name => "RegisterUser";
 
-        public void Execute(UserInsertUpdateDTO data)
+        public void Execute(UserInsertDTO data)
         {
             _validator.ValidateAndThrow(data);
 
@@ -36,15 +35,19 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 Password = BCrypt.Net.BCrypt.HashPassword(data.Password),
-                Image = data.Image,
+                Image = string.IsNullOrWhiteSpace(data.Image) ? "default.png" : data.Image,
                 Country = data.Country,
                 City = data.City,
                 Workplace = data.Workplace,
                 University = data.University,
+                Bio = data.Bio,
+                Website = data.Website,
+                DateOfBirth = data.DateOfBirth.Value,
                 UseCases = new List<UserUseCase>()
                 {
-                    //new UserUseCase() { UseCaseId = 1 },
-                }
+                    new UserUseCase() { UseCaseId = 4 },
+                },
+                RoleId = Context.Roles.FirstOrDefault(r => r.Name == "User").Id
             };
 
             Context.Users.Add(user);

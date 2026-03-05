@@ -58,15 +58,23 @@ namespace BuzzUp_API.DataAccess.Configurations
 
             builder
                 .Property(x => x.City)
-                .HasMaxLength(20);
+                .HasMaxLength(30);
 
             builder
                 .Property(x => x.Workplace)
-                .HasMaxLength(20);
+                .HasMaxLength(40);
 
             builder
                 .Property(x => x.University)
-                .HasMaxLength(20);
+                .HasMaxLength(40);
+
+            builder
+                .Property(x => x.Website)
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.Bio)
+                .HasMaxLength(160);
 
             builder
                 .Property(x => x.IsOnline)

@@ -1,5 +1,6 @@
 ﻿using BuzzUp_API.DataAccess;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Extensions;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -30,7 +31,8 @@ namespace BuzzUp_API.API.Core
                 x.FirstName,
                 x.LastName,
                 x.Id,
-                UseCaseIds = x.UseCases.Select(x => x.UseCaseId)
+                UseCaseIds = x.UseCases.Select(x => x.UseCaseId),
+                Role = x.Role.Name
             }).FirstOrDefault();
 
             if (user == null)
@@ -58,6 +60,7 @@ namespace BuzzUp_API.API.Core
                  new Claim("LastName", user.LastName),
                  new Claim("Id", user.Id.ToString()),
                  new Claim("UseCaseIds", JsonConvert.SerializeObject(user.UseCaseIds)),
+                 new Claim("Role", user.Role),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecretKey));

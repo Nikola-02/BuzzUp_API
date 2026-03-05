@@ -1,4 +1,5 @@
-﻿using BuzzUp_API.DataAccess;
+﻿using BuzzUp_API.Application.Repository;
+using BuzzUp_API.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,18 +8,14 @@ using System.Threading.Tasks;
 
 namespace BuzzUp_API.Implementation.UseCases
 {
-    public abstract class EfUseCase
+    public abstract class EfUseCase<TEntity>
+        where TEntity : class
     {
-        private readonly BuzzUpContext _context;
+        protected readonly IRepository<TEntity> Repository;
 
-
-        protected EfUseCase(BuzzUpContext context)
+        protected EfUseCase(IRepository<TEntity> repository)
         {
-            _context = context;
-
+            Repository = repository;
         }
-
-        protected BuzzUpContext Context => _context;
-
     }
 }

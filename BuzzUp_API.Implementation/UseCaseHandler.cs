@@ -11,7 +11,7 @@ namespace BuzzUp_API.Implementation
 {
     public class UseCaseHandler
     {
-        public static int MaxUseCaseId => 1;
+        public static int MaxUseCaseId => 5;
 
         private readonly IApplicationActor _actor;
         private readonly IUseCaseLogger _logger;
@@ -54,7 +54,7 @@ namespace BuzzUp_API.Implementation
 
         private void HandleCrossCuttingConcerns(IUseCase useCase, object data)
         {
-            if (!_actor.AllowedUseCases.Contains(useCase.Id))
+            if (!_actor.AllowedUseCases.Contains(useCase.Id) && _actor.Role != "Admin")
             {
                 throw new UnauthorizedAccessException();
             }

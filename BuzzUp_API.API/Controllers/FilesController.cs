@@ -16,7 +16,6 @@ namespace BuzzUp_API.API.Controllers
         };
 
         // GET api/<FilesController>/fileName
-        [Authorize]
         [HttpGet("{fileName}")]
         public IActionResult Get(string fileName)
         {
@@ -26,7 +25,6 @@ namespace BuzzUp_API.API.Controllers
         }
 
         // POST api/<FilesController>
-        [Authorize]
         [HttpPost]
         public IActionResult Post([FromForm] FileUploadDTO dto)
         {

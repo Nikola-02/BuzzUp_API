@@ -18,7 +18,12 @@ namespace BuzzUp_API.Domain
         public string City { get; set; }
         public string Workplace { get; set; }
         public string University { get; set; }
+        public string Website { get; set; }
+        public string Bio { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public bool IsOnline { get; set; }
+        public int RoleId { get; set; }
+        public virtual Role Role { get; set; }
         public virtual ICollection<Reaction> Reactions { get; set; } = new HashSet<Reaction>();
         public virtual ICollection<UserFriendship> Friendships { get; set; } = new HashSet<UserFriendship>();
         public virtual ICollection<Post> SavedPosts { get; set; } = new HashSet<Post>();

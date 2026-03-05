@@ -1,8 +1,11 @@
 using BuzzUp_API.API;
 using BuzzUp_API.API.Core;
 using BuzzUp_API.Application;
+using BuzzUp_API.Application.Repository;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Implementation;
+using BuzzUp_API.Implementation.Validators.User;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +24,6 @@ builder.Services.AddSingleton(settings.Jwt);
 builder.Services.AddSingleton(settings.Email);
 builder.Services.AddSingleton(settings.Frontend);
 
-
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -32,8 +34,15 @@ builder.Services.AddTransient<BuzzUpContext>(x => new BuzzUpContext(settings.Con
 builder.Services.AddScoped<IDbConnection>(x => new SqlConnection(settings.ConnectionString));
 builder.Services.AddTransient<JwtTokenCreator>();
 
+//Validators
+builder.Services.AddValidatorsFromAssemblyContaining<UserInsertValidator>();
+
 builder.Services.AddUseCases();
-builder.Services.AddAutoMapperProfiles();
+//builder.Services.AddAutoMapperProfiles();
+builder.Services.AddAutoMapper(typeof(UseCaseInfo).Assembly);
+
+//Repository
+builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
 builder.Services.AddHttpContextAccessor();
 

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BuzzUp_API.Application.UseCases.Commands.Account
+namespace BuzzUp_API.Application.UseCases.Commands.Users
 {
-    public interface IRegisterUserCommand : ICommand<UserInsertDTO>
+    public interface IUpdateUserCommand : ICommand<UserUpdateDTO>
     {
     }
 }

@@ -1,6 +1,9 @@
 ﻿using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
+using BuzzUp_API.Application.UseCases.Commands.Users;
+using BuzzUp_API.Application.UseCases.Queries;
 using BuzzUp_API.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
 
@@ -28,9 +31,9 @@ namespace BuzzUp_API.API.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id, [FromServices] IGetSingleUserQuery query)
         {
-            return "value";
+            return Ok(_handler.HandleQuery(query,id));
         }
 
         // POST api/<UsersController>
@@ -41,7 +44,7 @@ namespace BuzzUp_API.API.Controllers
 
         // POST api/<AuthController>
         [HttpPost("register")]
-        public IActionResult Register([FromForm] UserInsertUpdateDTO userDto, [FromServices] IRegisterUserCommand command)
+        public IActionResult Register([FromBody] UserInsertDTO userDto, [FromServices] IRegisterUserCommand command)
         {
             _handler.HandleCommand(command, userDto);
             return StatusCode(201);
@@ -68,8 +71,10 @@ namespace BuzzUp_API.API.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] UserUpdateDTO dto, [FromServices] IUpdateUserCommand command)
         {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
         }
 
         // DELETE api/<UsersController>/5
