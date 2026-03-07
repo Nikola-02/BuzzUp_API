@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BuzzUp_API.Application.Exceptions;
-using BuzzUp_API.Application.Repository;
 using BuzzUp_API.Application.UseCases;
 using BuzzUp_API.DataAccess;
 using System;
@@ -11,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace BuzzUp_API.Implementation.UseCases
 {
-    public abstract class EfFindUseCase<TResult, TEntity> : EfUseCase<TEntity>, IQuery<TResult, int>
+    public abstract class EfFindUseCase<TResult, TEntity> : EfUseCase, IQuery<TResult, int>
         where TEntity : class
         where TResult : class
     {
-        private readonly IRepository<TEntity> _repository;
         private readonly IMapper _mapper;
-        protected EfFindUseCase(IRepository<TEntity> repository, IMapper mapper) : base(repository)
+        protected EfFindUseCase(BuzzUpContext context, IMapper mapper) : base(context)
         {
             _mapper = mapper;
         }
@@ -27,9 +25,9 @@ namespace BuzzUp_API.Implementation.UseCases
 
         public TResult Execute(int id)
         {
-            var item = Repository.Find(id);
+            var item = Context.Set<TEntity>().Find(id);
 
-            if(item == null)
+            if (item == null)
             {
                 throw new EntityNotFoundException(nameof(TEntity), id);
             }

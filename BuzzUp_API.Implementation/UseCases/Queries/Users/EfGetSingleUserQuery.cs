@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.Exceptions;
-using BuzzUp_API.Application.Repository;
 using BuzzUp_API.Application.UseCases.Queries;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
@@ -15,7 +14,7 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Users
 {
     public class EfGetSingleUserQuery : EfFindUseCase<UserDTO, User>, IGetSingleUserQuery
     {
-        public EfGetSingleUserQuery(IRepository<User> repo, IMapper mapper) : base(repo, mapper)
+        public EfGetSingleUserQuery(BuzzUpContext context, IMapper mapper) : base(context, mapper)
         {
         }
 

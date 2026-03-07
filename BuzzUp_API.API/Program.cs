@@ -1,7 +1,6 @@
 using BuzzUp_API.API;
 using BuzzUp_API.API.Core;
 using BuzzUp_API.Application;
-using BuzzUp_API.Application.Repository;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Implementation;
 using BuzzUp_API.Implementation.Validators.User;
@@ -40,9 +39,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<UserInsertValidator>();
 builder.Services.AddUseCases();
 //builder.Services.AddAutoMapperProfiles();
 builder.Services.AddAutoMapper(typeof(UseCaseInfo).Assembly);
-
-//Repository
-builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
 builder.Services.AddHttpContextAccessor();
 

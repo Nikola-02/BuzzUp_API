@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BuzzUp_API.Application.DTO;
 using BuzzUp_API.Application.Exceptions;
-using BuzzUp_API.Application.Repository;
 using BuzzUp_API.Application.UseCases;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
@@ -16,15 +15,15 @@ using System.Threading.Tasks;
 namespace BuzzUp_API.Implementation.UseCases
 {
     public abstract class EfUpdateUseCase<TDto, TEntity>
-    : EfUseCase<TEntity>, ICommand<TDto>
+    : EfUseCase, ICommand<TDto>
     where TEntity : class
     where TDto : IUpdateDTO
     {
         private readonly IMapper _mapper;
         private readonly IValidator<TDto> _validator;
 
-        protected EfUpdateUseCase(IRepository<TEntity> repository, IMapper mapper, IValidator<TDto> validator)
-            : base(repository)
+        protected EfUpdateUseCase(BuzzUpContext context, IMapper mapper, IValidator<TDto> validator)
+            : base(context)
         {
             _mapper = mapper;
             _validator = validator;
@@ -37,7 +36,7 @@ namespace BuzzUp_API.Implementation.UseCases
         {
             _validator.ValidateAndThrow(request);
 
-            var entity = Repository.Find(request.Id.Value);
+            var entity = Context.Set<TEntity>().Find(request.Id.Value);
 
             if (entity == null)
             {
