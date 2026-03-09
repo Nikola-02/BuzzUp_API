@@ -31,9 +31,10 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Users
 
             if (!string.IsNullOrEmpty(search.Keyword))
             {
-                query = query.Where(x => x.Username.Contains(search.Keyword, StringComparison.CurrentCultureIgnoreCase) ||
-                                         x.FirstName.Contains(search.Keyword, StringComparison.CurrentCultureIgnoreCase) ||
-                                         x.Username.Contains(search.Keyword, StringComparison.CurrentCultureIgnoreCase));
+                query = query.Where(x => x.Username.ToLower().Contains(search.Keyword.ToLower()) ||
+                                         x.FirstName.ToLower().Contains(search.Keyword.ToLower()) ||
+                                         x.LastName.ToLower().Contains(search.Keyword.ToLower()) ||
+                                         x.Email.ToLower().Contains(search.Keyword.ToLower()));
             }
 
             return query.AsPagedReponse<User, UserMiniDTO>(search, Mapper);
