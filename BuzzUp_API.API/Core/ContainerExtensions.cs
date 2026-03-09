@@ -11,6 +11,7 @@ using BuzzUp_API.Application.UseCases.Commands.Users;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
 using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
+using BuzzUp_API.Implementation.UseCases.Queries.Roles;
 
 namespace BuzzUp_API.API.Core
 {

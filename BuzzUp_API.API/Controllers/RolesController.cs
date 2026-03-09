@@ -1,6 +1,7 @@
 ﻿using BuzzUp_API.Application.DTO;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Queries;
+using BuzzUp_API.Application.UseCases.Queries.Roles;
 using BuzzUp_API.Implementation;
 using Microsoft.AspNetCore.Mvc;
 
