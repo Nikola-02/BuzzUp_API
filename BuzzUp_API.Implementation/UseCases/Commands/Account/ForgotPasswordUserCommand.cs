@@ -19,7 +19,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
 
         public int Id => 2;
 
-        public string Name => "ForgotPasswordUser";
+        public string Name => "ForgotPassword User";
 
         public void Execute(ForgotPasswordDto dto)
         {

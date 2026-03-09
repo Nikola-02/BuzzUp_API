@@ -1,8 +1,9 @@
 ﻿using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.Application.UseCases.Commands.Users;
-using BuzzUp_API.Application.UseCases.Queries;
+using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.Implementation;
+using BuzzUp_API.Implementation.UseCases.Queries.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata;
@@ -24,9 +25,9 @@ namespace BuzzUp_API.API.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(UserSearch search, [FromServices] IGetUsersQuery query)
         {
-            return Ok();
+            return Ok(_handler.HandleQuery(query, search));
         }
 
         // GET api/<UsersController>/5

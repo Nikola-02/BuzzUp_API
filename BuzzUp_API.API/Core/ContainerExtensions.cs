@@ -6,10 +6,11 @@ using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.Implementation.UseCases.Commands.Account;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Implementation.Validators.User;
-using BuzzUp_API.Application.UseCases.Queries;
 using BuzzUp_API.Implementation.UseCases.Queries.Users;
 using BuzzUp_API.Application.UseCases.Commands.Users;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
+using BuzzUp_API.Application.UseCases.Queries.Users;
+using BuzzUp_API.Application.UseCases.Queries.Roles;
 
 namespace BuzzUp_API.API.Core
 {
@@ -26,7 +27,10 @@ namespace BuzzUp_API.API.Core
             //Queries
             //Users
             services.AddTransient<IGetSingleUserQuery, EfGetSingleUserQuery>();
-            
+            services.AddTransient<IGetUsersQuery, EfGetUsersQuery>();
+            //Roles
+            services.AddTransient<IGetRolesQuery, EfGetRolesQuery>();
+
             //Commands
             //Users
             services.AddTransient<IRegisterUserCommand, RegisterUserCommand>();

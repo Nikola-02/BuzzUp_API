@@ -22,7 +22,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
 
         public int Id => 1;
 
-        public string Name => "RegisterUser";
+        public string Name => "Register User";
 
         public void Execute(UserInsertDTO data)
         {
@@ -42,7 +42,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                 University = data.University,
                 Bio = data.Bio,
                 Website = data.Website,
-                DateOfBirth = data.DateOfBirth.Value,
+                DateOfBirth = data.DateOfBirth,
                 UseCases = new List<UserUseCase>()
                 {
                     new UserUseCase() { UseCaseId = 4 },

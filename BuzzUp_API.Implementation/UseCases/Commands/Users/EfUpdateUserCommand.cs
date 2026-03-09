@@ -20,6 +20,6 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Users
 
         public override int Id => 5;
 
-        public override string Name => "UpdateUser";
+        public override string Name => "Update User";
     }
 }

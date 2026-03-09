@@ -17,6 +17,8 @@ namespace BuzzUp_API.Implementation.Profiles
 
             CreateMap<UserDTO, User>();
 
+            CreateMap<User, UserMiniDTO>();
+
             CreateMap<UserInsertDTO, User>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)));
 

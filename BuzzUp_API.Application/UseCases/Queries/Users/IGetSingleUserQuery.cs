@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BuzzUp_API.Application.UseCases.Queries
+namespace BuzzUp_API.Application.UseCases.Queries.Users
 {
     public interface IGetSingleUserQuery : IQuery<UserDTO,int>
     {

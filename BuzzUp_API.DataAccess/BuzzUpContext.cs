@@ -39,7 +39,7 @@ namespace BuzzUp_API.DataAccess
         }
         public BuzzUpContext()
         {
-            this._connectionString = "Data Source=DESKTOP-CG6HMPT\\SQLEXPRESS;Initial Catalog=BuzzUp;TrustServerCertificate=true;Integrated security = true;";
+            this._connectionString = "Data Source=.;Initial Catalog=BuzzUp;TrustServerCertificate=true;Integrated security = true;";
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

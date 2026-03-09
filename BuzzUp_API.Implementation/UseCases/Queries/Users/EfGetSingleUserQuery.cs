@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.Exceptions;
-using BuzzUp_API.Application.UseCases.Queries;
+using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
 using System;
@@ -20,6 +20,6 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Users
 
         public override int Id => 4;
 
-        public override string Name => "FindUser";
+        public override string Name => "Find User";
     }
 }

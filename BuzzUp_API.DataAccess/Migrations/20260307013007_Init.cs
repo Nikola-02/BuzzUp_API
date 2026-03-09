@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BuzzUp_API.DataAccess.Migrations
 {
     /// <inheritdoc />
@@ -112,6 +114,23 @@ namespace BuzzUp_API.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tags",
                 columns: table => new
                 {
@@ -142,33 +161,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UseCaseLogs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    City = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Workplace = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    University = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    IsOnline = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,6 +199,76 @@ namespace BuzzUp_API.DataAccess.Migrations
                         name: "FK_Friendships_FriendRequestStatuses_FriendRequestStatusId",
                         column: x => x.FriendRequestStatusId,
                         principalTable: "FriendRequestStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    City = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Workplace = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    University = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    Website = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Bio = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsOnline = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    VisibilityTypeId = table.Column<int>(type: "int", nullable: false),
+                    FeelingTypeId = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_FeelingTypes_FeelingTypeId",
+                        column: x => x.FeelingTypeId,
+                        principalTable: "FeelingTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Posts_VisibilityTypes_VisibilityTypeId",
+                        column: x => x.VisibilityTypeId,
+                        principalTable: "VisibilityTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -298,57 +360,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserUseCases",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    UseCaseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserUseCases", x => new { x.UserId, x.UseCaseId });
-                    table.ForeignKey(
-                        name: "FK_UserUseCases_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Posts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    VisibilityTypeId = table.Column<int>(type: "int", nullable: false),
-                    FeelingTypeId = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Posts_FeelingTypes_FeelingTypeId",
-                        column: x => x.FeelingTypeId,
-                        principalTable: "FeelingTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Posts_VisibilityTypes_VisibilityTypeId",
-                        column: x => x.VisibilityTypeId,
-                        principalTable: "VisibilityTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "UserFriendships",
                 columns: table => new
                 {
@@ -370,6 +381,24 @@ namespace BuzzUp_API.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserFriendships_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserUseCases",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UseCaseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserUseCases", x => new { x.UserId, x.UseCaseId });
+                    table.ForeignKey(
+                        name: "FK_UserUseCases_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -538,6 +567,15 @@ namespace BuzzUp_API.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "IsActive", "Name", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, "Admin", null },
+                    { 2, new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, true, "User", null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ParentId",
                 table: "Comments",
@@ -643,6 +681,12 @@ namespace BuzzUp_API.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Roles_Name_IsActive",
+                table: "Roles",
+                columns: new[] { "Name", "IsActive" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SavedPosts_PostId",
                 table: "SavedPosts",
                 column: "PostId");
@@ -684,6 +728,11 @@ namespace BuzzUp_API.DataAccess.Migrations
                 name: "IX_Users_LastName_IsActive",
                 table: "Users",
                 columns: new[] { "LastName", "IsActive" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Username_IsActive",
@@ -766,6 +815,9 @@ namespace BuzzUp_API.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "FriendRequestStatuses");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }
