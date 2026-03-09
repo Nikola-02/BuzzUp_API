@@ -25,7 +25,7 @@ namespace BuzzUp_API.API.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IActionResult Get(UserSearch search, [FromServices] IGetUsersQuery query)
+        public IActionResult Get([FromQuery] UserSearch search, [FromServices] IGetUsersQuery query)
         {
             return Ok(_handler.HandleQuery(query, search));
         }
