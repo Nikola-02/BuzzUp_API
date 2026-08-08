@@ -57,6 +57,11 @@ namespace BuzzUp_API.Implementation.Validators.User
                 .LessThanOrEqualTo(DateTime.Today)
                 .WithMessage("Date of birth cannot be in the future.")
                 .When(x => x.DateOfBirth.HasValue);
+
+            RuleFor(x => x.CountryId)
+                .Must(id => ctx.Countries.Any(c => c.Id == id.Value && c.IsActive && c.DeletedAt == null))
+                .WithMessage("Country does not exist.")
+                .When(x => x.CountryId.HasValue);
         }
     }
 
@@ -108,6 +113,11 @@ namespace BuzzUp_API.Implementation.Validators.User
                 .LessThanOrEqualTo(DateTime.Today)
                 .WithMessage("Date of birth cannot be in the future.")
                 .When(x => x.DateOfBirth.HasValue);
+
+            RuleFor(x => x.CountryId)
+                .Must(id => ctx.Countries.Any(c => c.Id == id.Value && c.IsActive && c.DeletedAt == null))
+                .WithMessage("Country does not exist.")
+                .When(x => x.CountryId.HasValue);
         }
     }
     

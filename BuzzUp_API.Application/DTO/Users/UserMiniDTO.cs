@@ -14,7 +14,7 @@ namespace BuzzUp_API.Application.DTO.Users
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Image { get; set; }
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public string CountryName { get; set; }
         public string City { get; set; }
         public string Workplace { get; set; }

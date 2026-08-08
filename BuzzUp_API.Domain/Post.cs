@@ -11,6 +11,8 @@ namespace BuzzUp_API.Domain
         public string Title { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
         public int VisibilityTypeId { get; set; }
         public virtual VisibilityType VisibilityType { get; set; }
         public int FeelingTypeId { get; set; }

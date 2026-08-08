@@ -4,6 +4,7 @@ using BuzzUp_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuzzUp_API.DataAccess.Migrations
 {
     [DbContext(typeof(BuzzUpContext))]
-    partial class BuzzUpContextModelSnapshot : ModelSnapshot
+    [Migration("20260808230156_MakeUserCountryIdOptional")]
+    partial class MakeUserCountryIdOptional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -763,17 +766,12 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<int>("VisibilityTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FeelingTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("VisibilityTypeId");
 
@@ -1419,12 +1417,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BuzzUp_API.Domain.User", "User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("BuzzUp_API.Domain.VisibilityType", "VisibilityType")
                         .WithMany("Posts")
                         .HasForeignKey("VisibilityTypeId")
@@ -1432,8 +1424,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("FeelingType");
-
-                    b.Navigation("User");
 
                     b.Navigation("VisibilityType");
                 });
@@ -1650,8 +1640,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("Messages");
 
                     b.Navigation("PasswordResetTokens");
-
-                    b.Navigation("Posts");
 
                     b.Navigation("Reactions");
 

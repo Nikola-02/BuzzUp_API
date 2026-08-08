@@ -18,8 +18,8 @@ namespace BuzzUp_API.Implementation.Profiles
             CreateMap<UserDTO, User>();
 
             CreateMap<User, UserMiniDTO>()
-                .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country.Name))
-                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Country.Id));
+                .ForMember(dest => dest.CountryName, opt => opt.MapFrom(src => src.Country != null ? src.Country.Name : null))
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.CountryId));
 
             CreateMap<UserInsertDTO, User>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.Password)));

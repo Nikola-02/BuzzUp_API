@@ -19,6 +19,7 @@ namespace BuzzUp_API.DataAccess.Configurations
             builder.HasMany(x => x.Users)
                    .WithOne(x => x.Country)
                    .HasForeignKey(x => x.CountryId)
+                   .IsRequired(false)
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }

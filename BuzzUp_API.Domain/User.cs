@@ -14,7 +14,7 @@ namespace BuzzUp_API.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Image { get; set; }
-        public int CountryId { get; set; }
+        public int? CountryId { get; set; }
         public virtual Country Country { get; set; }
         public string City { get; set; }
         public string Workplace { get; set; }
@@ -25,6 +25,7 @@ namespace BuzzUp_API.Domain
         public bool IsOnline { get; set; }
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }
+        public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
         public virtual ICollection<Reaction> Reactions { get; set; } = new HashSet<Reaction>();
         public virtual ICollection<UserFriendship> Friendships { get; set; } = new HashSet<UserFriendship>();
         public virtual ICollection<Post> SavedPosts { get; set; } = new HashSet<Post>();

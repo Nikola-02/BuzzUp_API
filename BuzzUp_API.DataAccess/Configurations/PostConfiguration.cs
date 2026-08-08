@@ -29,6 +29,11 @@ namespace BuzzUp_API.DataAccess.Configurations
             builder
                 .HasIndex(x => new { x.Location, x.IsActive });
 
+            builder.HasOne(x => x.User)
+                .WithMany(x => x.Posts)
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(x => x.VisibilityType)
                 .WithMany(x => x.Posts)
                 .HasForeignKey(x => x.VisibilityTypeId)
