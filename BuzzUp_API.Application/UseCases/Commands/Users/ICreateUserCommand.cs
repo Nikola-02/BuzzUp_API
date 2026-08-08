@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BuzzUp_API.Application.UseCases.Queries.Users
+namespace BuzzUp_API.Application.UseCases.Commands.Users
 {
-    public interface IGetSingleUserQuery : IQuery<UserMiniDTO,int>
+    public interface ICreateUserCommand : ICommand<UserInsertDTO>
     {
     }
 }

@@ -53,10 +53,6 @@ namespace BuzzUp_API.DataAccess.Configurations
                 .HasMaxLength(120);
 
             builder
-                .Property(x => x.Country)
-                .HasMaxLength(20);
-
-            builder
                 .Property(x => x.City)
                 .HasMaxLength(30);
 

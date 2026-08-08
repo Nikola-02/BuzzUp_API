@@ -1,28 +1,24 @@
 ﻿using AutoMapper;
-using BuzzUp_API.Application.DTO;
 using BuzzUp_API.Application.Exceptions;
 using BuzzUp_API.Application.UseCases;
 using BuzzUp_API.DataAccess;
-using BuzzUp_API.Domain;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BuzzUp_API.Implementation.UseCases
 {
-    public abstract class EfUpdateUseCase<TDto, TEntity> : EfUseCase, ICommand<TDto>
+    public abstract class EfCreateUseCase<TDto, TEntity> : EfUseCase, ICommand<TDto>
         where TEntity : class
-        where TDto : IUpdateDTO
+        where TDto : class
     {
         private readonly IMapper _mapper;
         private readonly IValidator<TDto> _validator;
 
-        protected EfUpdateUseCase(BuzzUpContext context, IMapper mapper, IValidator<TDto> validator)
-            : base(context)
+        protected EfCreateUseCase(BuzzUpContext context, IMapper mapper, IValidator<TDto> validator) : base(context)
         {
             _mapper = mapper;
             _validator = validator;
@@ -35,14 +31,9 @@ namespace BuzzUp_API.Implementation.UseCases
         {
             _validator.ValidateAndThrow(request);
 
-            var entity = Context.Set<TEntity>().Find(request.Id.Value);
+            var entity = _mapper.Map<TEntity>(request);
 
-            if (entity == null)
-            {
-                throw new EntityNotFoundException(typeof(TEntity).Name, request.Id.Value);
-            }
-
-            _mapper.Map(request, entity);
+            Context.Set<TEntity>().Add(entity);
 
             Context.SaveChanges();
         }

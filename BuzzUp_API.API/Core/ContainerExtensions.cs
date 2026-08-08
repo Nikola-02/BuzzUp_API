@@ -1,17 +1,19 @@
 ﻿using BuzzUp_API.Application;
-using BuzzUp_API.Implementation.Logging.UseCases;
-using BuzzUp_API.Implementation;
-using System.IdentityModel.Tokens.Jwt;
-using BuzzUp_API.Application.UseCases.Commands.Account;
-using BuzzUp_API.Implementation.UseCases.Commands.Account;
 using BuzzUp_API.Application.DTO.Users;
-using BuzzUp_API.Implementation.Validators.User;
-using BuzzUp_API.Implementation.UseCases.Queries.Users;
+using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.Application.UseCases.Commands.Users;
-using BuzzUp_API.Implementation.UseCases.Commands.Users;
-using BuzzUp_API.Application.UseCases.Queries.Users;
+using BuzzUp_API.Application.UseCases.Queries.Country;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
+using BuzzUp_API.Application.UseCases.Queries.Users;
+using BuzzUp_API.Implementation;
+using BuzzUp_API.Implementation.Logging.UseCases;
+using BuzzUp_API.Implementation.UseCases.Commands.Account;
+using BuzzUp_API.Implementation.UseCases.Commands.Users;
+using BuzzUp_API.Implementation.UseCases.Queries.Country;
 using BuzzUp_API.Implementation.UseCases.Queries.Roles;
+using BuzzUp_API.Implementation.UseCases.Queries.Users;
+using BuzzUp_API.Implementation.Validators.User;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BuzzUp_API.API.Core
 {
@@ -31,6 +33,8 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IGetUsersQuery, EfGetUsersQuery>();
             //Roles
             services.AddTransient<IGetRolesQuery, EfGetRolesQuery>();
+            //Country
+            services.AddTransient<IGetCountriesQuery, EfGetCountriesQuery>();
 
             //Commands
             //Users
@@ -38,6 +42,7 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IForgotPasswordUserCommand, ForgotPasswordUserCommand>();
             services.AddTransient<IResetPasswordUserCommand, ResetPasswordUserCommand>();
             services.AddTransient<IUpdateUserCommand, EfUpdateUserCommand>();
+            services.AddTransient<ICreateUserCommand, EfCreateUserCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)

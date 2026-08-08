@@ -29,7 +29,7 @@ namespace BuzzUp_API.Implementation
 
         public string LastName => "unauthorized";
 
-        public IEnumerable<int> AllowedUseCases => new List<int> { 1, 2, 3, 4 };
+        public IEnumerable<int> AllowedUseCases => new List<int> { 1, 2, 3, 4, 9 };
 
         public string Role => "unauthorized";
     }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BuzzUp_API.Implementation.UseCases.Queries.Users
 {
-    public class EfGetSingleUserQuery : EfFindUseCase<UserDTO, User>, IGetSingleUserQuery
+    public class EfGetSingleUserQuery : EfFindUseCase<UserMiniDTO, User>, IGetSingleUserQuery
     {
         public EfGetSingleUserQuery(BuzzUpContext context, IMapper mapper) : base(context, mapper)
         {

@@ -39,8 +39,10 @@ namespace BuzzUp_API.API.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] UserInsertDTO userDto, [FromServices] ICreateUserCommand command)
         {
+            _handler.HandleCommand(command, userDto);
+            return StatusCode(201);
         }
 
         // POST api/<AuthController>

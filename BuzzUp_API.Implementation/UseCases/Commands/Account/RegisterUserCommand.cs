@@ -36,7 +36,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                 LastName = data.LastName,
                 Password = BCrypt.Net.BCrypt.HashPassword(data.Password),
                 Image = string.IsNullOrWhiteSpace(data.Image) ? "default.png" : data.Image,
-                Country = data.Country,
+                CountryId = data.CountryId,
                 City = data.City,
                 Workplace = data.Workplace,
                 University = data.University,

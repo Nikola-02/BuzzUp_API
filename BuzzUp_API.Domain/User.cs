@@ -14,7 +14,8 @@ namespace BuzzUp_API.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Image { get; set; }
-        public string Country { get; set; }
+        public int CountryId { get; set; }
+        public virtual Country Country { get; set; }
         public string City { get; set; }
         public string Workplace { get; set; }
         public string University { get; set; }
