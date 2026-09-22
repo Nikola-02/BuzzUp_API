@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace BuzzUp_API.Implementation.UseCases
 {
     public abstract class EfUpdateUseCase<TDto, TEntity> : EfUseCase, ICommand<TDto>
-        where TEntity : class
+        where TEntity : Entity
         where TDto : IUpdateDTO
     {
         private readonly IMapper _mapper;
@@ -35,16 +35,28 @@ namespace BuzzUp_API.Implementation.UseCases
         {
             _validator.ValidateAndThrow(request);
 
-            var entity = Context.Set<TEntity>().Find(request.Id.Value);
+            var entity = Context.Set<TEntity>().FirstOrDefault(x => x.Id == request.Id.Value && x.IsActive && x.DeletedAt == null);
 
             if (entity == null)
             {
                 throw new EntityNotFoundException(typeof(TEntity).Name, request.Id.Value);
             }
 
+            EnsureCanUpdate(request, entity);
+
             _mapper.Map(request, entity);
 
+            AfterUpdate(request, entity);
+
             Context.SaveChanges();
+        }
+
+        protected virtual void EnsureCanUpdate(TDto request, TEntity entity)
+        {
+        }
+
+        protected virtual void AfterUpdate(TDto request, TEntity entity)
+        {
         }
     }
 }

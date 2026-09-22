@@ -42,6 +42,7 @@ namespace BuzzUp_API.API.Core
             //Posts
             services.AddTransient<IGetPostsQuery, EfGetPostsQuery>();
             services.AddTransient<IGetSinglePostQuery, EfGetSinglePostQuery>();
+            services.AddTransient<IGetMyPostsQuery, EfGetMyPostsQuery>();
 
             //Commands
             //Users
@@ -52,6 +53,8 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<ICreateUserCommand, EfCreateUserCommand>();
             //Posts
             services.AddTransient<ICreatePostCommand, EfCreatePostCommand>();
+            services.AddTransient<IUpdatePostCommand, EfUpdatePostCommand>();
+            services.AddTransient<IDeletePostCommand, EfDeletePostCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)

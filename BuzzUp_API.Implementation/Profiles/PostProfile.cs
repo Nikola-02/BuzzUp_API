@@ -17,6 +17,10 @@ namespace BuzzUp_API.Implementation.Profiles
                 .ForMember(dest => dest.UserId, opt => opt.Ignore())
                 .ForMember(dest => dest.PostMedias, opt => opt.Ignore());
 
+            CreateMap<PostUpdateDTO, Post>()
+                .ForMember(dest => dest.UserId, opt => opt.Ignore())
+                .ForMember(dest => dest.PostMedias, opt => opt.Ignore());
+
             CreateMap<Post, PostDTO>()
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.Username))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))

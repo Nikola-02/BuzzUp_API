@@ -19,6 +19,8 @@ namespace BuzzUp_API.Application.DTO.Users
         public string City { get; set; }
         public string Workplace { get; set; }
         public string University { get; set; }
+        public string Website { get; set; }
+        public string Bio { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }

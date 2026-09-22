@@ -46,9 +46,13 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                 UseCases = new List<UserUseCase>()
                 {
                     new UserUseCase() { UseCaseId = 4 },
+                    new UserUseCase() { UseCaseId = 5 },
                     new UserUseCase() { UseCaseId = 10 },
                     new UserUseCase() { UseCaseId = 11 },
                     new UserUseCase() { UseCaseId = 12 },
+                    new UserUseCase() { UseCaseId = 13 },
+                    new UserUseCase() { UseCaseId = 14 },
+                    new UserUseCase() { UseCaseId = 15 },
                 },
                 RoleId = Context.Roles.FirstOrDefault(r => r.Name == "User").Id
             };

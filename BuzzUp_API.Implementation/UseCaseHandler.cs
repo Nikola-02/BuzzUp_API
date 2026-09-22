@@ -11,7 +11,7 @@ namespace BuzzUp_API.Implementation
 {
     public class UseCaseHandler
     {
-        public static int MaxUseCaseId => 12;
+        public static int MaxUseCaseId => 15;
 
         private readonly IApplicationActor _actor;
         private readonly IUseCaseLogger _logger;

@@ -1,4 +1,4 @@
-﻿using BuzzUp_API.Application.Exceptions;
+using BuzzUp_API.Application.Exceptions;
 using BuzzUp_API.Application;
 using FluentValidation;
 
@@ -28,6 +28,12 @@ namespace BuzzUp_API.API.Core
                 if (exception is UnauthorizedAccessException)
                 {
                     httpContext.Response.StatusCode = 401;
+                    return;
+                }
+
+                if (exception is ForbiddenException)
+                {
+                    httpContext.Response.StatusCode = 403;
                     return;
                 }
 
