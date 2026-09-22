@@ -1,4 +1,4 @@
-﻿using BuzzUp_API.Domain;
+using BuzzUp_API.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace BuzzUp_API.DataAccess.Configurations
             builder
                 .Property(x => x.Icon)
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(40);
         }
     }
 }

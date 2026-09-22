@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -42,6 +42,7 @@ namespace BuzzUp_API.DataAccess.Configurations
             builder.HasOne(x => x.FeelingType)
                 .WithMany(x => x.Posts)
                 .HasForeignKey(x => x.FeelingTypeId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //Tags
