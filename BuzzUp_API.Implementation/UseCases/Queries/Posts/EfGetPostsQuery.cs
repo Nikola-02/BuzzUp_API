@@ -1,4 +1,5 @@
 using AutoMapper;
+using BuzzUp_API.Application;
 using BuzzUp_API.Application.DTO;
 using BuzzUp_API.Application.DTO.Posts;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
@@ -15,8 +16,11 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
 {
     public class EfGetPostsQuery : EfUseCaseMapper, IGetPostsQuery
     {
-        public EfGetPostsQuery(BuzzUpContext context, IMapper mapper) : base(context, mapper)
+        private readonly IApplicationActor _actor;
+
+        public EfGetPostsQuery(BuzzUpContext context, IMapper mapper, IApplicationActor actor) : base(context, mapper)
         {
+            _actor = actor;
         }
 
         public int Id => 11;
@@ -25,8 +29,19 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
 
         public PagedResponse<PostDTO> Execute(PostSearch search)
         {
+            var actorId = _actor.Id;
+
             var query = Context.Posts
                 .Where(x => x.IsActive && x.DeletedAt == null)
+                .Where(x =>
+                    x.UserId == actorId ||
+                    x.VisibilityType.Name == "Public" ||
+                    (x.VisibilityType.Name == "Friends" && Context.Friendships.Any(f =>
+                        f.IsActive &&
+                        f.DeletedAt == null &&
+                        f.FriendRequestStatus.Name == "Accepted" &&
+                        ((f.SenderUserId == actorId && f.ReceiverUserId == x.UserId) ||
+                         (f.ReceiverUserId == actorId && f.SenderUserId == x.UserId)))))
                 .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
