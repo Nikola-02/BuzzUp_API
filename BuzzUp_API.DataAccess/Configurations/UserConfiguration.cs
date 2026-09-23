@@ -76,6 +76,10 @@ namespace BuzzUp_API.DataAccess.Configurations
                 .Property(x => x.IsOnline)
                 .HasDefaultValue(false);
 
+            builder
+                .Property(x => x.IsPrivate)
+                .HasDefaultValue(false);
+
             //SavedPost by users
             builder.HasMany(x => x.SavedPosts)
                 .WithMany(x => x.SavedByUsers)

@@ -27,5 +27,7 @@ namespace BuzzUp_API.Application.DTO.Users
         public int PostCount { get; set; }
         public int FriendCount { get; set; }
         public string FriendshipStatus { get; set; }
+        public bool IsPrivate { get; set; }
+        public string Role { get; set; }
     }
 }

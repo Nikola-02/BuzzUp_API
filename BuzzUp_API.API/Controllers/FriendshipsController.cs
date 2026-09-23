@@ -49,5 +49,12 @@ namespace BuzzUp_API.API.Controllers
             _handler.HandleCommand(command, dto);
             return NoContent();
         }
+
+        [HttpPost("unfriend")]
+        public IActionResult Unfriend([FromBody] FriendshipInsertDTO dto, [FromServices] IUnfriendCommand command)
+        {
+            _handler.HandleCommand(command, dto);
+            return NoContent();
+        }
     }
 }

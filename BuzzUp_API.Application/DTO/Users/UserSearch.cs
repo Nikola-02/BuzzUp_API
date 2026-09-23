@@ -8,5 +8,6 @@ namespace BuzzUp_API.Application.DTO.Users
 {
     public class UserSearch : TablesSearch
     {
+        public bool AdminView { get; set; }
     }
 }

@@ -24,6 +24,11 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Friendships
                 ? search.UserId.Value
                 : _actor.Id;
 
+            if (ownerId != _actor.Id && !CanSeeFriendsList(ownerId))
+            {
+                return new List<FriendMiniDTO>();
+            }
+
             var friends = Context.Friendships
                 .Where(f => f.IsActive && f.DeletedAt == null)
                 .Where(f => f.FriendRequestStatus.Name == "Accepted")
@@ -48,8 +53,11 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Friendships
                         x.FriendRequestStatus.Name == "Accepted" &&
                         (x.SenderUserId == (f.SenderUserId == ownerId ? f.Receiver.Id : f.Sender.Id) ||
                          x.ReceiverUserId == (f.SenderUserId == ownerId ? f.Receiver.Id : f.Sender.Id))),
-                    FriendsSince = f.UpdatedAt != null ? f.UpdatedAt.Value : f.CreatedAt
-                });
+                    FriendsSince = ownerId == _actor.Id
+                        ? (f.UpdatedAt != null ? f.UpdatedAt.Value : f.CreatedAt)
+                        : null
+                })
+                .Where(u => u.Id != _actor.Id);
 
             if (!string.IsNullOrWhiteSpace(search.Keyword))
             {
@@ -64,6 +72,27 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Friendships
                 .OrderByDescending(u => u.IsOnline)
                 .ThenBy(u => u.FirstName)
                 .ToList();
+        }
+
+        private bool CanSeeFriendsList(int ownerId)
+        {
+            var ownerIsPrivate = Context.Users.Any(u =>
+                u.Id == ownerId &&
+                u.IsActive &&
+                u.DeletedAt == null &&
+                u.IsPrivate);
+
+            if (!ownerIsPrivate)
+            {
+                return true;
+            }
+
+            return Context.Friendships.Any(f =>
+                f.IsActive &&
+                f.DeletedAt == null &&
+                f.FriendRequestStatus.Name == "Accepted" &&
+                ((f.SenderUserId == ownerId && f.ReceiverUserId == _actor.Id) ||
+                 (f.ReceiverUserId == ownerId && f.SenderUserId == _actor.Id)));
         }
     }
 }

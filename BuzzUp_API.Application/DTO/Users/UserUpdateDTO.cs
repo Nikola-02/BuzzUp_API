@@ -22,5 +22,6 @@ namespace BuzzUp_API.Application.DTO.Users
         public string Website { get; set; }
         public string Bio { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public bool IsPrivate { get; set; }
     }
 }

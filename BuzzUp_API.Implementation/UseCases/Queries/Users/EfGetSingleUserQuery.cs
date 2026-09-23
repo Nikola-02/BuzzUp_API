@@ -35,7 +35,22 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Users
 
             dto.FriendshipStatus = ResolveFriendshipStatus(id);
 
+            if (ShouldHidePrivateDetails(dto))
+            {
+                UserPrivacy.HidePrivateDetails(dto);
+            }
+
             return dto;
+        }
+
+        private bool ShouldHidePrivateDetails(UserMiniDTO dto)
+        {
+            if (!dto.IsPrivate || _actor.Id == 0 || _actor.Id == dto.Id)
+            {
+                return false;
+            }
+
+            return dto.FriendshipStatus != "Accepted";
         }
 
         private string ResolveFriendshipStatus(int userId)

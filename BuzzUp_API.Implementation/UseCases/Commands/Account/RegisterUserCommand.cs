@@ -2,6 +2,7 @@ using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation.UseCases;
 using BuzzUp_API.Implementation.Validators.User;
 using FluentValidation;
 using System;
@@ -43,23 +44,8 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                 Bio = data.Bio,
                 Website = data.Website,
                 DateOfBirth = data.DateOfBirth,
-                UseCases = new List<UserUseCase>()
-                {
-                    new UserUseCase() { UseCaseId = 4 },
-                    new UserUseCase() { UseCaseId = 5 },
-                    new UserUseCase() { UseCaseId = 6 },
-                    new UserUseCase() { UseCaseId = 10 },
-                    new UserUseCase() { UseCaseId = 11 },
-                    new UserUseCase() { UseCaseId = 12 },
-                    new UserUseCase() { UseCaseId = 13 },
-                    new UserUseCase() { UseCaseId = 14 },
-                    new UserUseCase() { UseCaseId = 15 },
-                    new UserUseCase() { UseCaseId = 16 },
-                    new UserUseCase() { UseCaseId = 17 },
-                    new UserUseCase() { UseCaseId = 18 },
-                    new UserUseCase() { UseCaseId = 19 },
-                    new UserUseCase() { UseCaseId = 20 },
-                },
+                IsPrivate = data.IsPrivate,
+                UseCases = RegisteredUserUseCases.Create(),
                 RoleId = Context.Roles.FirstOrDefault(r => r.Name == "User").Id
             };
 

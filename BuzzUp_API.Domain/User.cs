@@ -23,6 +23,7 @@ namespace BuzzUp_API.Domain
         public string Bio { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public bool IsOnline { get; set; }
+        public bool IsPrivate { get; set; }
         public int RoleId { get; set; }
         public virtual Role Role { get; set; }
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();

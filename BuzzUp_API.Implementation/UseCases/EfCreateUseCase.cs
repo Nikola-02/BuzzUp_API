@@ -33,9 +33,15 @@ namespace BuzzUp_API.Implementation.UseCases
 
             var entity = _mapper.Map<TEntity>(request);
 
+            AfterMap(request, entity);
+
             Context.Set<TEntity>().Add(entity);
 
             Context.SaveChanges();
+        }
+
+        protected virtual void AfterMap(TDto request, TEntity entity)
+        {
         }
     }
 }
