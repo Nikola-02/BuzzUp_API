@@ -3,18 +3,19 @@ using BuzzUp_API.Application.DTO.Friendships;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation.Validators.Friendship;
 using FluentValidation;
 
 namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
 {
     public class EfSendFriendRequestCommand : EfUseCase, ISendFriendRequestCommand
     {
-        private readonly IValidator<FriendshipInsertDTO> _validator;
+        private readonly FriendshipInsertValidator _validator;
         private readonly IApplicationActor _actor;
 
         public EfSendFriendRequestCommand(
             BuzzUpContext context,
-            IValidator<FriendshipInsertDTO> validator,
+            FriendshipInsertValidator validator,
             IApplicationActor actor)
             : base(context)
         {

@@ -5,6 +5,7 @@ using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
 using BuzzUp_API.Application.UseCases.Commands.Users;
 using BuzzUp_API.Application.UseCases.Queries.Country;
+using BuzzUp_API.Application.UseCases.Queries.Friendships;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
 using BuzzUp_API.Application.UseCases.Queries.Users;
@@ -15,6 +16,7 @@ using BuzzUp_API.Implementation.UseCases.Commands.Friendships;
 using BuzzUp_API.Implementation.UseCases.Commands.Posts;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
 using BuzzUp_API.Implementation.UseCases.Queries.Country;
+using BuzzUp_API.Implementation.UseCases.Queries.Friendships;
 using BuzzUp_API.Implementation.UseCases.Queries.Posts;
 using BuzzUp_API.Implementation.UseCases.Queries.Roles;
 using BuzzUp_API.Implementation.UseCases.Queries.Users;
@@ -45,6 +47,8 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IGetPostsQuery, EfGetPostsQuery>();
             services.AddTransient<IGetSinglePostQuery, EfGetSinglePostQuery>();
             services.AddTransient<IGetMyPostsQuery, EfGetMyPostsQuery>();
+            //Friendships
+            services.AddTransient<IGetMyFriendsQuery, EfGetMyFriendsQuery>();
 
             //Commands
             //Users
@@ -59,6 +63,7 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IDeletePostCommand, EfDeletePostCommand>();
             //Friendships
             services.AddTransient<ISendFriendRequestCommand, EfSendFriendRequestCommand>();
+            services.AddTransient<IAcceptFriendRequestCommand, EfAcceptFriendRequestCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)
