@@ -24,5 +24,8 @@ namespace BuzzUp_API.Application.DTO.Users
         public DateTime? DateOfBirth { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
+        public int PostCount { get; set; }
+        public int FriendCount { get; set; }
+        public string FriendshipStatus { get; set; }
     }
 }

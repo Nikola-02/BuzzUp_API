@@ -17,7 +17,6 @@ namespace BuzzUp_API.DataAccess
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
-        public DbSet<UserFriendship> UserFriendships { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserChat> UserChats { get; set; }
         public DbSet<Tag> Tags { get; set; }
@@ -149,6 +148,14 @@ namespace BuzzUp_API.DataAccess
                         e.IsActive = true;
                         e.CreatedAt = DateTime.UtcNow;
                     }
+                    else if (entry.Entity is CompositeEntity c)
+                    {
+                        c.IsActive = true;
+                        if (c.CreatedAt == default)
+                        {
+                            c.CreatedAt = DateTime.UtcNow;
+                        }
+                    }
                 }
 
                 if (entry.State == EntityState.Modified)
@@ -156,6 +163,10 @@ namespace BuzzUp_API.DataAccess
                     if (entry.Entity is Entity e)
                     {
                         e.UpdatedAt = DateTime.UtcNow;
+                    }
+                    else if (entry.Entity is CompositeEntity c)
+                    {
+                        c.UpdatedAt = DateTime.UtcNow;
                     }
                 }
             }

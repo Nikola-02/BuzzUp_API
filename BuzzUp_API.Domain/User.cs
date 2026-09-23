@@ -27,7 +27,8 @@ namespace BuzzUp_API.Domain
         public virtual Role Role { get; set; }
         public virtual ICollection<Post> Posts { get; set; } = new HashSet<Post>();
         public virtual ICollection<Reaction> Reactions { get; set; } = new HashSet<Reaction>();
-        public virtual ICollection<UserFriendship> Friendships { get; set; } = new HashSet<UserFriendship>();
+        public virtual ICollection<Friendship> SentFriendships { get; set; } = new HashSet<Friendship>();
+        public virtual ICollection<Friendship> ReceivedFriendships { get; set; } = new HashSet<Friendship>();
         public virtual ICollection<Post> SavedPosts { get; set; } = new HashSet<Post>();
         public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
         public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();

@@ -36,6 +36,11 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                                          (x.Description != null && x.Description.Contains(search.Keyword)));
             }
 
+            if (search.UserId.HasValue)
+            {
+                query = query.Where(x => x.UserId == search.UserId.Value);
+            }
+
             return query.AsPagedReponse<Post, PostDTO>(search, Mapper);
         }
     }

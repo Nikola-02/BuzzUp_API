@@ -1,4 +1,4 @@
-﻿using BuzzUp_API.Application.DTO.Users;
+using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
@@ -53,6 +53,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                     new UserUseCase() { UseCaseId = 13 },
                     new UserUseCase() { UseCaseId = 14 },
                     new UserUseCase() { UseCaseId = 15 },
+                    new UserUseCase() { UseCaseId = 16 },
                 },
                 RoleId = Context.Roles.FirstOrDefault(r => r.Name == "User").Id
             };

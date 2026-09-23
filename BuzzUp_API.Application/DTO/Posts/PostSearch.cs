@@ -9,5 +9,6 @@ namespace BuzzUp_API.Application.DTO.Posts
 {
     public class PostSearch : TablesSearch
     {
+        public int? UserId { get; set; }
     }
 }

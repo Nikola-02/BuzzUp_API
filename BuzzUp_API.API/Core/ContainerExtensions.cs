@@ -1,6 +1,7 @@
-﻿using BuzzUp_API.Application;
+using BuzzUp_API.Application;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
+using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
 using BuzzUp_API.Application.UseCases.Commands.Users;
 using BuzzUp_API.Application.UseCases.Queries.Country;
@@ -10,6 +11,7 @@ using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.Implementation;
 using BuzzUp_API.Implementation.Logging.UseCases;
 using BuzzUp_API.Implementation.UseCases.Commands.Account;
+using BuzzUp_API.Implementation.UseCases.Commands.Friendships;
 using BuzzUp_API.Implementation.UseCases.Commands.Posts;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
 using BuzzUp_API.Implementation.UseCases.Queries.Country;
@@ -55,6 +57,8 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<ICreatePostCommand, EfCreatePostCommand>();
             services.AddTransient<IUpdatePostCommand, EfUpdatePostCommand>();
             services.AddTransient<IDeletePostCommand, EfDeletePostCommand>();
+            //Friendships
+            services.AddTransient<ISendFriendRequestCommand, EfSendFriendRequestCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)

@@ -4,6 +4,7 @@ using BuzzUp_API.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BuzzUp_API.DataAccess.Migrations
 {
     [DbContext(typeof(BuzzUpContext))]
-    partial class BuzzUpContextModelSnapshot : ModelSnapshot
+    [Migration("20260923170432_AddFriendshipSenderReceiver")]
+    partial class AddFriendshipSenderReceiver
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1273,6 +1276,37 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.ToTable("UserChats");
                 });
 
+            modelBuilder.Entity("BuzzUp_API.Domain.UserFriendship", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FriendshipId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "FriendshipId");
+
+                    b.HasIndex("FriendshipId");
+
+                    b.ToTable("UserFriendships");
+                });
+
             modelBuilder.Entity("BuzzUp_API.Domain.UserUseCase", b =>
                 {
                     b.Property<int>("UserId")
@@ -1549,6 +1583,25 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BuzzUp_API.Domain.UserFriendship", b =>
+                {
+                    b.HasOne("BuzzUp_API.Domain.Friendship", "Friendship")
+                        .WithMany("Users")
+                        .HasForeignKey("FriendshipId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BuzzUp_API.Domain.User", "User")
+                        .WithMany("Friendships")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Friendship");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("BuzzUp_API.Domain.UserUseCase", b =>
                 {
                     b.HasOne("BuzzUp_API.Domain.User", "User")
@@ -1587,6 +1640,11 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("Friendships");
                 });
 
+            modelBuilder.Entity("BuzzUp_API.Domain.Friendship", b =>
+                {
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("BuzzUp_API.Domain.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -1614,6 +1672,8 @@ namespace BuzzUp_API.DataAccess.Migrations
             modelBuilder.Entity("BuzzUp_API.Domain.User", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Friendships");
 
                     b.Navigation("Messages");
 

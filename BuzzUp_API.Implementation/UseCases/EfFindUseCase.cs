@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BuzzUp_API.Application.Exceptions;
 using BuzzUp_API.Application.UseCases;
 using BuzzUp_API.DataAccess;
@@ -23,7 +23,7 @@ namespace BuzzUp_API.Implementation.UseCases
         public abstract int Id { get; }
         public abstract string Name { get; }
 
-        public TResult Execute(int id)
+        public virtual TResult Execute(int id)
         {
             var item = Context.Set<TEntity>().Find(id);
 

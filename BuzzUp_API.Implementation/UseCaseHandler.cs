@@ -1,4 +1,4 @@
-﻿using BuzzUp_API.Application;
+using BuzzUp_API.Application;
 using BuzzUp_API.Application.UseCases;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace BuzzUp_API.Implementation
 {
     public class UseCaseHandler
     {
-        public static int MaxUseCaseId => 15;
+        public static int MaxUseCaseId => 16;
 
         private readonly IApplicationActor _actor;
         private readonly IUseCaseLogger _logger;
