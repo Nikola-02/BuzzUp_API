@@ -47,6 +47,7 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Account
                 {
                     new UserUseCase() { UseCaseId = 4 },
                     new UserUseCase() { UseCaseId = 5 },
+                    new UserUseCase() { UseCaseId = 6 },
                     new UserUseCase() { UseCaseId = 10 },
                     new UserUseCase() { UseCaseId = 11 },
                     new UserUseCase() { UseCaseId = 12 },

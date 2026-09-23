@@ -20,22 +20,35 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Friendships
 
         public List<FriendMiniDTO> Execute(FriendSearch search)
         {
-            var actorId = _actor.Id;
+            var ownerId = search.UserId.HasValue && search.UserId.Value > 0
+                ? search.UserId.Value
+                : _actor.Id;
 
             var friends = Context.Friendships
                 .Where(f => f.IsActive && f.DeletedAt == null)
                 .Where(f => f.FriendRequestStatus.Name == "Accepted")
                 .Where(f =>
-                    (f.SenderUserId == actorId && f.Receiver.IsActive && f.Receiver.DeletedAt == null) ||
-                    (f.ReceiverUserId == actorId && f.Sender.IsActive && f.Sender.DeletedAt == null))
+                    (f.SenderUserId == ownerId && f.Receiver.IsActive && f.Receiver.DeletedAt == null) ||
+                    (f.ReceiverUserId == ownerId && f.Sender.IsActive && f.Sender.DeletedAt == null))
                 .Select(f => new FriendMiniDTO
                 {
-                    Id = f.SenderUserId == actorId ? f.Receiver.Id : f.Sender.Id,
-                    FirstName = f.SenderUserId == actorId ? f.Receiver.FirstName : f.Sender.FirstName,
-                    LastName = f.SenderUserId == actorId ? f.Receiver.LastName : f.Sender.LastName,
-                    Username = f.SenderUserId == actorId ? f.Receiver.Username : f.Sender.Username,
-                    Image = f.SenderUserId == actorId ? f.Receiver.Image : f.Sender.Image,
-                    IsOnline = f.SenderUserId == actorId ? f.Receiver.IsOnline : f.Sender.IsOnline
+                    Id = f.SenderUserId == ownerId ? f.Receiver.Id : f.Sender.Id,
+                    FirstName = f.SenderUserId == ownerId ? f.Receiver.FirstName : f.Sender.FirstName,
+                    LastName = f.SenderUserId == ownerId ? f.Receiver.LastName : f.Sender.LastName,
+                    Username = f.SenderUserId == ownerId ? f.Receiver.Username : f.Sender.Username,
+                    Image = f.SenderUserId == ownerId ? f.Receiver.Image : f.Sender.Image,
+                    IsOnline = f.SenderUserId == ownerId ? f.Receiver.IsOnline : f.Sender.IsOnline,
+                    PostCount = Context.Posts.Count(p =>
+                        p.IsActive &&
+                        p.DeletedAt == null &&
+                        p.UserId == (f.SenderUserId == ownerId ? f.Receiver.Id : f.Sender.Id)),
+                    FriendCount = Context.Friendships.Count(x =>
+                        x.IsActive &&
+                        x.DeletedAt == null &&
+                        x.FriendRequestStatus.Name == "Accepted" &&
+                        (x.SenderUserId == (f.SenderUserId == ownerId ? f.Receiver.Id : f.Sender.Id) ||
+                         x.ReceiverUserId == (f.SenderUserId == ownerId ? f.Receiver.Id : f.Sender.Id))),
+                    FriendsSince = f.UpdatedAt != null ? f.UpdatedAt.Value : f.CreatedAt
                 });
 
             if (!string.IsNullOrWhiteSpace(search.Keyword))
