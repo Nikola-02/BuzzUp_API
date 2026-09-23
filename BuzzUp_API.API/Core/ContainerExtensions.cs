@@ -49,6 +49,7 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IGetMyPostsQuery, EfGetMyPostsQuery>();
             //Friendships
             services.AddTransient<IGetMyFriendsQuery, EfGetMyFriendsQuery>();
+            services.AddTransient<IGetIncomingFriendRequestsQuery, EfGetIncomingFriendRequestsQuery>();
 
             //Commands
             //Users
@@ -64,6 +65,7 @@ namespace BuzzUp_API.API.Core
             //Friendships
             services.AddTransient<ISendFriendRequestCommand, EfSendFriendRequestCommand>();
             services.AddTransient<IAcceptFriendRequestCommand, EfAcceptFriendRequestCommand>();
+            services.AddTransient<IRejectFriendRequestCommand, EfRejectFriendRequestCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)

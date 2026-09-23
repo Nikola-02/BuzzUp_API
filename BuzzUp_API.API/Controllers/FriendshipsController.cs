@@ -23,6 +23,12 @@ namespace BuzzUp_API.API.Controllers
             return Ok(_handler.HandleQuery(query, search ?? new FriendSearch()));
         }
 
+        [HttpGet("incoming")]
+        public IActionResult GetIncoming([FromServices] IGetIncomingFriendRequestsQuery query)
+        {
+            return Ok(_handler.HandleQuery(query, new FriendSearch()));
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] FriendshipInsertDTO dto, [FromServices] ISendFriendRequestCommand command)
         {
@@ -32,6 +38,13 @@ namespace BuzzUp_API.API.Controllers
 
         [HttpPost("accept")]
         public IActionResult Accept([FromBody] FriendshipInsertDTO dto, [FromServices] IAcceptFriendRequestCommand command)
+        {
+            _handler.HandleCommand(command, dto);
+            return NoContent();
+        }
+
+        [HttpPost("reject")]
+        public IActionResult Reject([FromBody] FriendshipInsertDTO dto, [FromServices] IRejectFriendRequestCommand command)
         {
             _handler.HandleCommand(command, dto);
             return NoContent();

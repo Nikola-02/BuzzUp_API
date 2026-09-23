@@ -68,7 +68,12 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Users
                 return friendship.SenderUserId == _actor.Id ? "PendingOutgoing" : "PendingIncoming";
             }
 
-            return friendship.Status;
+            if (friendship.Status == "Accepted")
+            {
+                return "Accepted";
+            }
+
+            return "None";
         }
     }
 }
