@@ -3,6 +3,7 @@ using BuzzUp_API.Application.DTO.Friendships;
 using BuzzUp_API.Application.Exceptions;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.DataAccess;
+using BuzzUp_API.Domain;
 using BuzzUp_API.Implementation.Validators.Friendship;
 using FluentValidation;
 
@@ -50,6 +51,19 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
                 .First();
 
             friendship.FriendRequestStatusId = acceptedId;
+
+            var friendAcceptedTypeId = Context.NotificationTypes
+                .Where(t => t.Name == "FriendAccepted" && t.IsActive && t.DeletedAt == null)
+                .Select(t => t.Id)
+                .First();
+
+            Context.Notifications.Add(new Notification
+            {
+                RecipientUserId = friendship.SenderUserId,
+                ActorUserId = _actor.Id,
+                NotificationTypeId = friendAcceptedTypeId
+            });
+
             Context.SaveChanges();
         }
     }

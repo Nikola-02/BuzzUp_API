@@ -43,6 +43,18 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
                 ReceiverUserId = data.UserId
             });
 
+            var friendRequestTypeId = Context.NotificationTypes
+                .Where(t => t.Name == "FriendRequest" && t.IsActive && t.DeletedAt == null)
+                .Select(t => t.Id)
+                .First();
+
+            Context.Notifications.Add(new Notification
+            {
+                RecipientUserId = data.UserId,
+                ActorUserId = _actor.Id,
+                NotificationTypeId = friendRequestTypeId
+            });
+
             Context.SaveChanges();
         }
     }

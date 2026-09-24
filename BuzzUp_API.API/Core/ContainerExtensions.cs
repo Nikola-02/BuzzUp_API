@@ -2,10 +2,12 @@ using BuzzUp_API.Application;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
+using BuzzUp_API.Application.UseCases.Commands.Notifications;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
 using BuzzUp_API.Application.UseCases.Commands.Users;
 using BuzzUp_API.Application.UseCases.Queries.Country;
 using BuzzUp_API.Application.UseCases.Queries.Friendships;
+using BuzzUp_API.Application.UseCases.Queries.Notifications;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
 using BuzzUp_API.Application.UseCases.Queries.Users;
@@ -13,10 +15,12 @@ using BuzzUp_API.Implementation;
 using BuzzUp_API.Implementation.Logging.UseCases;
 using BuzzUp_API.Implementation.UseCases.Commands.Account;
 using BuzzUp_API.Implementation.UseCases.Commands.Friendships;
+using BuzzUp_API.Implementation.UseCases.Commands.Notifications;
 using BuzzUp_API.Implementation.UseCases.Commands.Posts;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
 using BuzzUp_API.Implementation.UseCases.Queries.Country;
 using BuzzUp_API.Implementation.UseCases.Queries.Friendships;
+using BuzzUp_API.Implementation.UseCases.Queries.Notifications;
 using BuzzUp_API.Implementation.UseCases.Queries.Posts;
 using BuzzUp_API.Implementation.UseCases.Queries.Roles;
 using BuzzUp_API.Implementation.UseCases.Queries.Users;
@@ -50,6 +54,8 @@ namespace BuzzUp_API.API.Core
             //Friendships
             services.AddTransient<IGetMyFriendsQuery, EfGetMyFriendsQuery>();
             services.AddTransient<IGetIncomingFriendRequestsQuery, EfGetIncomingFriendRequestsQuery>();
+            //Notifications
+            services.AddTransient<IGetNotificationsQuery, EfGetNotificationsQuery>();
 
             //Commands
             //Users
@@ -67,6 +73,9 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IAcceptFriendRequestCommand, EfAcceptFriendRequestCommand>();
             services.AddTransient<IRejectFriendRequestCommand, EfRejectFriendRequestCommand>();
             services.AddTransient<IUnfriendCommand, EfUnfriendCommand>();
+            //Notifications
+            services.AddTransient<IMarkAllNotificationsReadCommand, EfMarkAllNotificationsReadCommand>();
+            services.AddTransient<IMarkNotificationReadCommand, EfMarkNotificationReadCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)

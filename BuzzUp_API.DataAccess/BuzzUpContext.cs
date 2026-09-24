@@ -30,6 +30,8 @@ namespace BuzzUp_API.DataAccess
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<SavedPost> SavedPosts { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationType> NotificationTypes { get; set; }
 
 
         private readonly string _connectionString;
