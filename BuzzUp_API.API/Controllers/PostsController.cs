@@ -1,5 +1,7 @@
 using BuzzUp_API.Application.DTO.Posts;
+using BuzzUp_API.Application.DTO.Reactions;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
+using BuzzUp_API.Application.UseCases.Commands.Reactions;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
 using BuzzUp_API.Implementation;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +62,14 @@ namespace BuzzUp_API.API.Controllers
         public IActionResult Delete(int id, [FromServices] IDeletePostCommand command)
         {
             _handler.HandleCommand(command, id);
+            return NoContent();
+        }
+
+        [HttpPost("{id}/reactions")]
+        public IActionResult React(int id, [FromBody] ReactionInsertDTO dto, [FromServices] IReactToPostCommand command)
+        {
+            dto.PostId = id;
+            _handler.HandleCommand(command, dto);
             return NoContent();
         }
     }

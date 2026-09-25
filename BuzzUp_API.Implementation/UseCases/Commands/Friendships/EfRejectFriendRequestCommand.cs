@@ -3,6 +3,7 @@ using BuzzUp_API.Application.DTO.Friendships;
 using BuzzUp_API.Application.Exceptions;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.DataAccess;
+using BuzzUp_API.Implementation.UseCases.Notifications;
 using BuzzUp_API.Implementation.Validators.Friendship;
 using FluentValidation;
 
@@ -43,6 +44,12 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
             {
                 throw new ForbiddenException("You cannot reject this friend request.");
             }
+
+            FriendshipNotificationCleanup.RemoveBetween(
+                Context,
+                friendship.SenderUserId,
+                friendship.ReceiverUserId,
+                "FriendRequest");
 
             Context.Friendships.Remove(friendship);
             Context.SaveChanges();

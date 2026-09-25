@@ -4,11 +4,13 @@ using BuzzUp_API.Application.UseCases.Commands.Account;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.Application.UseCases.Commands.Notifications;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
+using BuzzUp_API.Application.UseCases.Commands.Reactions;
 using BuzzUp_API.Application.UseCases.Commands.Users;
 using BuzzUp_API.Application.UseCases.Queries.Country;
 using BuzzUp_API.Application.UseCases.Queries.Friendships;
 using BuzzUp_API.Application.UseCases.Queries.Notifications;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
+using BuzzUp_API.Application.UseCases.Queries.Reactions;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
 using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.Implementation;
@@ -17,11 +19,13 @@ using BuzzUp_API.Implementation.UseCases.Commands.Account;
 using BuzzUp_API.Implementation.UseCases.Commands.Friendships;
 using BuzzUp_API.Implementation.UseCases.Commands.Notifications;
 using BuzzUp_API.Implementation.UseCases.Commands.Posts;
+using BuzzUp_API.Implementation.UseCases.Commands.Reactions;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
 using BuzzUp_API.Implementation.UseCases.Queries.Country;
 using BuzzUp_API.Implementation.UseCases.Queries.Friendships;
 using BuzzUp_API.Implementation.UseCases.Queries.Notifications;
 using BuzzUp_API.Implementation.UseCases.Queries.Posts;
+using BuzzUp_API.Implementation.UseCases.Queries.Reactions;
 using BuzzUp_API.Implementation.UseCases.Queries.Roles;
 using BuzzUp_API.Implementation.UseCases.Queries.Users;
 using BuzzUp_API.Implementation.Validators.User;
@@ -56,6 +60,8 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IGetIncomingFriendRequestsQuery, EfGetIncomingFriendRequestsQuery>();
             //Notifications
             services.AddTransient<IGetNotificationsQuery, EfGetNotificationsQuery>();
+            //Reactions
+            services.AddTransient<IGetReactionTypesQuery, EfGetReactionTypesQuery>();
 
             //Commands
             //Users
@@ -68,6 +74,7 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<ICreatePostCommand, EfCreatePostCommand>();
             services.AddTransient<IUpdatePostCommand, EfUpdatePostCommand>();
             services.AddTransient<IDeletePostCommand, EfDeletePostCommand>();
+            services.AddTransient<IReactToPostCommand, EfReactToPostCommand>();
             //Friendships
             services.AddTransient<ISendFriendRequestCommand, EfSendFriendRequestCommand>();
             services.AddTransient<IAcceptFriendRequestCommand, EfAcceptFriendRequestCommand>();

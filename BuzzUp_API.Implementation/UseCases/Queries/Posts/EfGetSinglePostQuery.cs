@@ -30,7 +30,9 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                 throw new EntityNotFoundException(nameof(Post), id);
             }
 
-            return base.Execute(id);
+            var dto = base.Execute(id);
+            PostReactionSummary.FillPostsWithViewerReactions(Context, _actor.Id, dto);
+            return dto;
         }
 
         private bool CanView(Post post)

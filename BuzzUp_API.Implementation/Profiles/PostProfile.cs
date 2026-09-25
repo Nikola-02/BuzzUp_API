@@ -31,7 +31,8 @@ namespace BuzzUp_API.Implementation.Profiles
                 .ForMember(dest => dest.FeelingIcon, opt => opt.MapFrom(src => src.FeelingType != null ? src.FeelingType.Icon : null))
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.PostMedias
                     .Where(m => m.IsActive && m.DeletedAt == null)
-                    .Select(m => m.Path)));
+                    .Select(m => m.Path)))
+                .ForMember(dest => dest.UsedReactionTypeIds, opt => opt.Ignore());
         }
     }
 }

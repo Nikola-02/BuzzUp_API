@@ -39,7 +39,9 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                                          (x.Description != null && x.Description.Contains(search.Keyword)));
             }
 
-            return query.AsPagedReponse<Post, PostDTO>(search, Mapper);
+            var result = query.AsPagedReponse<Post, PostDTO>(search, Mapper);
+            PostReactionSummary.FillPostsWithViewerReactions(Context, _actor.Id, result.Data);
+            return result;
         }
     }
 }

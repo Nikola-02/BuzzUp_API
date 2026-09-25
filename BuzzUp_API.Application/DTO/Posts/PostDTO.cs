@@ -24,5 +24,10 @@ namespace BuzzUp_API.Application.DTO.Posts
         public string FeelingIcon { get; set; }
         public IEnumerable<string> Images { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int ReactionCount { get; set; }
+        public int? MyReactionTypeId { get; set; }
+        public string MyReactionName { get; set; }
+        public string MyReactionIcon { get; set; }
+        public IEnumerable<int> UsedReactionTypeIds { get; set; }
     }
 }

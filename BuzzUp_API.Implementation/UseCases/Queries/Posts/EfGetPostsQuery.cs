@@ -56,7 +56,9 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                 query = query.Where(x => x.UserId == search.UserId.Value);
             }
 
-            return query.AsPagedReponse<Post, PostDTO>(search, Mapper);
+            var result = query.AsPagedReponse<Post, PostDTO>(search, Mapper);
+            PostReactionSummary.FillPostsWithViewerReactions(Context, actorId, result.Data);
+            return result;
         }
     }
 }
