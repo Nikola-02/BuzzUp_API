@@ -32,6 +32,7 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
 
             var dto = base.Execute(id);
             PostReactionSummary.FillPostsWithViewerReactions(Context, _actor.Id, dto);
+            PostCommentSummary.FillPostsWithCommentCounts(Context, dto);
             return dto;
         }
 

@@ -1,7 +1,10 @@
+using BuzzUp_API.Application.DTO.Comments;
 using BuzzUp_API.Application.DTO.Posts;
 using BuzzUp_API.Application.DTO.Reactions;
+using BuzzUp_API.Application.UseCases.Commands.Comments;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
 using BuzzUp_API.Application.UseCases.Commands.Reactions;
+using BuzzUp_API.Application.UseCases.Queries.Comments;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
 using BuzzUp_API.Implementation;
 using Microsoft.AspNetCore.Mvc;
@@ -63,6 +66,20 @@ namespace BuzzUp_API.API.Controllers
         {
             _handler.HandleCommand(command, id);
             return NoContent();
+        }
+
+        [HttpGet("{id}/comments")]
+        public IActionResult GetComments(int id, [FromServices] IGetCommentsQuery query)
+        {
+            return Ok(_handler.HandleQuery(query, id));
+        }
+
+        [HttpPost("{id}/comments")]
+        public IActionResult CreateComment(int id, [FromBody] CommentInsertDTO dto, [FromServices] ICreateCommentCommand command)
+        {
+            dto.PostId = id;
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
         }
 
         [HttpPost("{id}/reactions")]

@@ -34,10 +34,16 @@ namespace BuzzUp_API.Implementation.UseCases
             entity.IsActive = false;
             entity.DeletedAt = DateTime.UtcNow;
 
+            AfterDelete(entity);
+
             Context.SaveChanges();
         }
 
         protected virtual void EnsureCanDelete(TEntity entity)
+        {
+        }
+
+        protected virtual void AfterDelete(TEntity entity)
         {
         }
     }

@@ -31,5 +31,37 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Posts
                 throw new ForbiddenException("You can only delete your own post.");
             }
         }
+
+        protected override void AfterDelete(Post entity)
+        {
+            var deletedAt = DateTime.UtcNow;
+
+            var commentsOnPost = Context.Comments
+                .Where(comment => comment.PostId == entity.Id && comment.IsActive && comment.DeletedAt == null)
+                .ToList();
+            foreach (var comment in commentsOnPost)
+            {
+                comment.IsActive = false;
+                comment.DeletedAt = deletedAt;
+            }
+
+            var reactionsOnPost = Context.Reactions
+                .Where(reaction => reaction.PostId == entity.Id && reaction.IsActive && reaction.DeletedAt == null)
+                .ToList();
+            foreach (var reaction in reactionsOnPost)
+            {
+                reaction.IsActive = false;
+                reaction.DeletedAt = deletedAt;
+            }
+
+            var notificationsOnPost = Context.Notifications
+                .Where(notification => notification.PostId == entity.Id && notification.IsActive && notification.DeletedAt == null)
+                .ToList();
+            foreach (var notification in notificationsOnPost)
+            {
+                notification.IsActive = false;
+                notification.DeletedAt = deletedAt;
+            }
+        }
     }
 }

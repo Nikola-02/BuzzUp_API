@@ -58,6 +58,7 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
 
             var result = query.AsPagedReponse<Post, PostDTO>(search, Mapper);
             PostReactionSummary.FillPostsWithViewerReactions(Context, actorId, result.Data);
+            PostCommentSummary.FillPostsWithCommentCounts(Context, result.Data);
             return result;
         }
     }

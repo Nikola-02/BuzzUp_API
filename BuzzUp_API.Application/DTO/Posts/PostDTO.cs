@@ -29,5 +29,6 @@ namespace BuzzUp_API.Application.DTO.Posts
         public string MyReactionName { get; set; }
         public string MyReactionIcon { get; set; }
         public IEnumerable<int> UsedReactionTypeIds { get; set; }
+        public int CommentCount { get; set; }
     }
 }
