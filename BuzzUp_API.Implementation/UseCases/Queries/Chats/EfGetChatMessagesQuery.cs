@@ -61,7 +61,7 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Chats
                     message.ChatId == chatId &&
                     message.IsActive &&
                     message.DeletedAt == null)
-                .OrderBy(message => message.CreatedAt)
+                .OrderBy(message => message.Id)
                 .Select(message => new MessageDTO
                 {
                     Id = message.Id,

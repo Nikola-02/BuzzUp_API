@@ -14,6 +14,8 @@ namespace BuzzUp_API.Implementation.Profiles
         public ReactionTypeProfile()
         {
             CreateMap<ReactionType, ReactionTypeDTO>();
+            CreateMap<ReactionTypeInsertDTO, ReactionType>();
+            CreateMap<ReactionTypeUpdateDTO, ReactionType>();
         }
     }
 }

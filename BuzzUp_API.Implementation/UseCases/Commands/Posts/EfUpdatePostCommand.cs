@@ -30,6 +30,11 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Posts
 
         protected override void EnsureCanUpdate(PostUpdateDTO request, Post entity)
         {
+            if (_actor.Role == "Admin")
+            {
+                return;
+            }
+
             if (entity.UserId != _actor.Id)
             {
                 throw new ForbiddenException("You can only update your own post.");

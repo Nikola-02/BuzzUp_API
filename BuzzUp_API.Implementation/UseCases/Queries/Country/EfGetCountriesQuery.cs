@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BuzzUp_API.Application.DTO.Country;
 using BuzzUp_API.Application.UseCases;
@@ -33,6 +33,7 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Country
             }
 
             return query
+                    .Where(country => country.IsActive && country.DeletedAt == null)
                     .ProjectTo<CountryDto>(Mapper.ConfigurationProvider)
                     .ToList();
         }

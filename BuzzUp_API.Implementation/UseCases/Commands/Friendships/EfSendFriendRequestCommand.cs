@@ -3,6 +3,7 @@ using BuzzUp_API.Application.DTO.Friendships;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation.UseCases.Notifications;
 using BuzzUp_API.Implementation.Validators.Friendship;
 using FluentValidation;
 
@@ -12,15 +13,18 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
     {
         private readonly FriendshipInsertValidator _validator;
         private readonly IApplicationActor _actor;
+        private readonly INotificationRealtimeNotifier _notificationRealtimeNotifier;
 
         public EfSendFriendRequestCommand(
             BuzzUpContext context,
             FriendshipInsertValidator validator,
-            IApplicationActor actor)
+            IApplicationActor actor,
+            INotificationRealtimeNotifier notificationRealtimeNotifier)
             : base(context)
         {
             _validator = validator;
             _actor = actor;
+            _notificationRealtimeNotifier = notificationRealtimeNotifier;
         }
 
         public int Id => 16;
@@ -48,14 +52,16 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
                 .Select(t => t.Id)
                 .First();
 
-            Context.Notifications.Add(new Notification
+            var friendRequestNotification = new Notification
             {
                 RecipientUserId = data.UserId,
                 ActorUserId = _actor.Id,
                 NotificationTypeId = friendRequestTypeId
-            });
+            };
+            Context.Notifications.Add(friendRequestNotification);
 
             Context.SaveChanges();
+            NotificationRealtimePush.NotifyNew(Context, _notificationRealtimeNotifier, friendRequestNotification);
         }
     }
 }

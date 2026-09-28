@@ -1000,37 +1000,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.ToTable("PostMediaTypes");
                 });
 
-            modelBuilder.Entity("BuzzUp_API.Domain.PostTag", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("PostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("PostTags");
-                });
-
             modelBuilder.Entity("BuzzUp_API.Domain.Reaction", b =>
                 {
                     b.Property<int>("PostId")
@@ -1191,43 +1160,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("SavedPosts");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name", "IsActive")
-                        .IsUnique();
-
-                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.UseCaseLog", b =>
@@ -1621,21 +1553,6 @@ namespace BuzzUp_API.DataAccess.Migrations
                     b.Navigation("Post");
 
                     b.Navigation("PostMediaType");
-                });
-
-            modelBuilder.Entity("BuzzUp_API.Domain.PostTag", b =>
-                {
-                    b.HasOne("BuzzUp_API.Domain.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BuzzUp_API.Domain.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BuzzUp_API.Domain.Reaction", b =>

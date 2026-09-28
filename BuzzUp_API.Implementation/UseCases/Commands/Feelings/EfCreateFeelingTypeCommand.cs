@@ -1,0 +1,22 @@
+using AutoMapper;
+using BuzzUp_API.Application.DTO.Feelings;
+using BuzzUp_API.Application.UseCases.Commands.Feelings;
+using BuzzUp_API.DataAccess;
+using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation.UseCases;
+using FluentValidation;
+
+namespace BuzzUp_API.Implementation.UseCases.Commands.Feelings
+{
+    public class EfCreateFeelingTypeCommand : EfCreateUseCase<FeelingTypeInsertDTO, FeelingType>, ICreateFeelingTypeCommand
+    {
+        public EfCreateFeelingTypeCommand(BuzzUpContext context, IMapper mapper, IValidator<FeelingTypeInsertDTO> validator)
+            : base(context, mapper, validator)
+        {
+        }
+
+        public override int Id => 39;
+
+        public override string Name => "Create Feeling Type";
+    }
+}

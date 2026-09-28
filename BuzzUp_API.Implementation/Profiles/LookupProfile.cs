@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BuzzUp_API.Application.DTO;
 using BuzzUp_API.Domain;
 using System;
@@ -14,6 +14,7 @@ namespace BuzzUp_API.Implementation.Profiles
         public LookupProfile()
         {
             CreateMap<Role, LookupMiniDTO>();
+            CreateMap<VisibilityType, LookupMiniDTO>();
         }
     }
 }

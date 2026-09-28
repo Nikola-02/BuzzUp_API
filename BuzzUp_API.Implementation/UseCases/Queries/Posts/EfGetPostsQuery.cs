@@ -33,7 +33,11 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
 
             var query = Context.Posts
                 .Where(x => x.IsActive && x.DeletedAt == null)
-                .Where(x =>
+                .AsQueryable();
+
+            if (!(_actor.Role == "Admin" && search.AdminView))
+            {
+                query = query.Where(x =>
                     x.UserId == actorId ||
                     x.VisibilityType.Name == "Public" ||
                     (x.VisibilityType.Name == "Friends" && Context.Friendships.Any(f =>
@@ -41,9 +45,10 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                         f.DeletedAt == null &&
                         f.FriendRequestStatus.Name == "Accepted" &&
                         ((f.SenderUserId == actorId && f.ReceiverUserId == x.UserId) ||
-                         (f.ReceiverUserId == actorId && f.SenderUserId == x.UserId)))))
-                .OrderByDescending(x => x.CreatedAt)
-                .AsQueryable();
+                         (f.ReceiverUserId == actorId && f.SenderUserId == x.UserId)))));
+            }
+
+            query = query.OrderByDescending(x => x.CreatedAt);
 
             if (!string.IsNullOrEmpty(search.Keyword))
             {

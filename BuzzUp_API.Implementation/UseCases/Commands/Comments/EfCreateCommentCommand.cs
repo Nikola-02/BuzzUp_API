@@ -5,6 +5,7 @@ using BuzzUp_API.Application.UseCases.Commands.Comments;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
 using BuzzUp_API.Implementation.UseCases;
+using BuzzUp_API.Implementation.UseCases.Notifications;
 using FluentValidation;
 
 namespace BuzzUp_API.Implementation.UseCases.Commands.Comments
@@ -12,15 +13,19 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Comments
     public class EfCreateCommentCommand : EfCreateUseCase<CommentInsertDTO, Comment>, ICreateCommentCommand
     {
         private readonly IApplicationActor _actor;
+        private readonly INotificationRealtimeNotifier _notificationRealtimeNotifier;
+        private readonly List<Notification> _createdNotifications = new();
 
         public EfCreateCommentCommand(
             BuzzUpContext context,
             IMapper mapper,
             IValidator<CommentInsertDTO> validator,
-            IApplicationActor actor)
+            IApplicationActor actor,
+            INotificationRealtimeNotifier notificationRealtimeNotifier)
             : base(context, mapper, validator)
         {
             _actor = actor;
+            _notificationRealtimeNotifier = notificationRealtimeNotifier;
         }
 
         public override int Id => 28;
@@ -68,13 +73,23 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Comments
 
             foreach (var recipientUserId in recipientUserIds)
             {
-                Context.Notifications.Add(new Notification
+                var commentNotification = new Notification
                 {
                     RecipientUserId = recipientUserId,
                     ActorUserId = _actor.Id,
                     NotificationTypeId = commentNotificationTypeId,
                     PostId = request.PostId
-                });
+                };
+                Context.Notifications.Add(commentNotification);
+                _createdNotifications.Add(commentNotification);
+            }
+        }
+
+        protected override void AfterSave(CommentInsertDTO request, Comment savedComment)
+        {
+            foreach (var createdNotification in _createdNotifications)
+            {
+                NotificationRealtimePush.NotifyNew(Context, _notificationRealtimeNotifier, createdNotification);
             }
         }
     }

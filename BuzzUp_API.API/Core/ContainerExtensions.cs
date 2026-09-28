@@ -1,39 +1,53 @@
 using BuzzUp_API.Application;
 using BuzzUp_API.Application.DTO.Users;
 using BuzzUp_API.Application.UseCases.Commands.Account;
+using BuzzUp_API.Application.UseCases.Commands.Chats;
+using BuzzUp_API.Application.UseCases.Commands.Country;
+using BuzzUp_API.Application.UseCases.Commands.Feelings;
 using BuzzUp_API.Application.UseCases.Commands.Comments;
 using BuzzUp_API.Application.UseCases.Commands.Friendships;
 using BuzzUp_API.Application.UseCases.Commands.Notifications;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
 using BuzzUp_API.Application.UseCases.Commands.Reactions;
+using BuzzUp_API.Application.UseCases.Commands.Roles;
 using BuzzUp_API.Application.UseCases.Commands.Users;
+using BuzzUp_API.Application.UseCases.Queries.Admin;
 using BuzzUp_API.Application.UseCases.Queries.Chats;
 using BuzzUp_API.Application.UseCases.Queries.Comments;
 using BuzzUp_API.Application.UseCases.Queries.Country;
+using BuzzUp_API.Application.UseCases.Queries.Feelings;
 using BuzzUp_API.Application.UseCases.Queries.Friendships;
 using BuzzUp_API.Application.UseCases.Queries.Notifications;
 using BuzzUp_API.Application.UseCases.Queries.Posts;
 using BuzzUp_API.Application.UseCases.Queries.Reactions;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
 using BuzzUp_API.Application.UseCases.Queries.Users;
+using BuzzUp_API.Application.UseCases.Queries.Visibility;
 using BuzzUp_API.Implementation;
 using BuzzUp_API.Implementation.Logging.UseCases;
 using BuzzUp_API.Implementation.UseCases.Commands.Account;
+using BuzzUp_API.Implementation.UseCases.Commands.Chats;
 using BuzzUp_API.Implementation.UseCases.Commands.Comments;
+using BuzzUp_API.Implementation.UseCases.Commands.Country;
+using BuzzUp_API.Implementation.UseCases.Commands.Feelings;
 using BuzzUp_API.Implementation.UseCases.Commands.Friendships;
 using BuzzUp_API.Implementation.UseCases.Commands.Notifications;
 using BuzzUp_API.Implementation.UseCases.Commands.Posts;
 using BuzzUp_API.Implementation.UseCases.Commands.Reactions;
+using BuzzUp_API.Implementation.UseCases.Commands.Roles;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
+using BuzzUp_API.Implementation.UseCases.Queries.Admin;
 using BuzzUp_API.Implementation.UseCases.Queries.Chats;
 using BuzzUp_API.Implementation.UseCases.Queries.Comments;
 using BuzzUp_API.Implementation.UseCases.Queries.Country;
+using BuzzUp_API.Implementation.UseCases.Queries.Feelings;
 using BuzzUp_API.Implementation.UseCases.Queries.Friendships;
 using BuzzUp_API.Implementation.UseCases.Queries.Notifications;
 using BuzzUp_API.Implementation.UseCases.Queries.Posts;
 using BuzzUp_API.Implementation.UseCases.Queries.Reactions;
 using BuzzUp_API.Implementation.UseCases.Queries.Roles;
 using BuzzUp_API.Implementation.UseCases.Queries.Users;
+using BuzzUp_API.Implementation.UseCases.Queries.Visibility;
 using BuzzUp_API.Implementation.Validators.User;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -74,6 +88,12 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IOpenDirectChatQuery, EfOpenDirectChatQuery>();
             services.AddTransient<IGetMyChatsQuery, EfGetMyChatsQuery>();
             services.AddTransient<IGetChatMessagesQuery, EfGetChatMessagesQuery>();
+            //Lookups
+            services.AddTransient<IGetFeelingTypesQuery, EfGetFeelingTypesQuery>();
+            services.AddTransient<IGetVisibilityTypesQuery, EfGetVisibilityTypesQuery>();
+            //Admin
+            services.AddTransient<IGetAdminDashboardStatsQuery, EfGetAdminDashboardStatsQuery>();
+            services.AddTransient<IGetUseCaseLogsQuery, EfGetUseCaseLogsQuery>();
 
             //Commands
             //Users
@@ -99,6 +119,21 @@ namespace BuzzUp_API.API.Core
             //Notifications
             services.AddTransient<IMarkAllNotificationsReadCommand, EfMarkAllNotificationsReadCommand>();
             services.AddTransient<IMarkNotificationReadCommand, EfMarkNotificationReadCommand>();
+            //Chats
+            services.AddTransient<ISendChatMessageCommand, EfSendChatMessageCommand>();
+            //Lookups
+            services.AddTransient<ICreateCountryCommand, EfCreateCountryCommand>();
+            services.AddTransient<IUpdateCountryCommand, EfUpdateCountryCommand>();
+            services.AddTransient<IDeleteCountryCommand, EfDeleteCountryCommand>();
+            services.AddTransient<ICreateFeelingTypeCommand, EfCreateFeelingTypeCommand>();
+            services.AddTransient<IUpdateFeelingTypeCommand, EfUpdateFeelingTypeCommand>();
+            services.AddTransient<IDeleteFeelingTypeCommand, EfDeleteFeelingTypeCommand>();
+            services.AddTransient<ICreateReactionTypeCommand, EfCreateReactionTypeCommand>();
+            services.AddTransient<IUpdateReactionTypeCommand, EfUpdateReactionTypeCommand>();
+            services.AddTransient<IDeleteReactionTypeCommand, EfDeleteReactionTypeCommand>();
+            services.AddTransient<ICreateRoleCommand, EfCreateRoleCommand>();
+            services.AddTransient<IUpdateRoleCommand, EfUpdateRoleCommand>();
+            services.AddTransient<IDeleteRoleCommand, EfDeleteRoleCommand>();
         }
 
         //Ne treba nam ovo ispod, jer se vec registruju svi automapper profili u program.cs AddAutoMapper(typeof(UseCaseInfo).Assembly)

@@ -26,6 +26,11 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Posts
 
         protected override void EnsureCanDelete(Post entity)
         {
+            if (_actor.Role == "Admin")
+            {
+                return;
+            }
+
             if (entity.UserId != _actor.Id)
             {
                 throw new ForbiddenException("You can only delete your own post.");

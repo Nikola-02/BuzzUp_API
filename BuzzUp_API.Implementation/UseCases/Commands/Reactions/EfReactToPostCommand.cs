@@ -3,6 +3,7 @@ using BuzzUp_API.Application.DTO.Reactions;
 using BuzzUp_API.Application.UseCases.Commands.Reactions;
 using BuzzUp_API.DataAccess;
 using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation.UseCases.Notifications;
 using BuzzUp_API.Implementation.Validators.Reaction;
 using FluentValidation;
 
@@ -12,15 +13,18 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Reactions
     {
         private readonly ReactionInsertValidator _validator;
         private readonly IApplicationActor _actor;
+        private readonly INotificationRealtimeNotifier _notificationRealtimeNotifier;
 
         public EfReactToPostCommand(
             BuzzUpContext context,
             ReactionInsertValidator validator,
-            IApplicationActor actor)
+            IApplicationActor actor,
+            INotificationRealtimeNotifier notificationRealtimeNotifier)
             : base(context)
         {
             _validator = validator;
             _actor = actor;
+            _notificationRealtimeNotifier = notificationRealtimeNotifier;
         }
 
         public int Id => 26;
@@ -59,11 +63,12 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Reactions
                 });
             }
 
-            SyncReactionNotification(post.Id, post.UserId, data.ReactionTypeId);
+            var createdReactionNotification = SyncReactionNotification(post.Id, post.UserId, data.ReactionTypeId);
             Context.SaveChanges();
+            NotificationRealtimePush.NotifyNew(Context, _notificationRealtimeNotifier, createdReactionNotification);
         }
 
-        private void SyncReactionNotification(int postId, int authorId, int? reactionTypeId)
+        private Notification SyncReactionNotification(int postId, int authorId, int? reactionTypeId)
         {
             var notificationTypeId = Context.NotificationTypes
                 .Where(t => t.Name == "Reaction" && t.IsActive && t.DeletedAt == null)
@@ -80,17 +85,19 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Reactions
 
             if (!reactionTypeId.HasValue || authorId == _actor.Id)
             {
-                return;
+                return null;
             }
 
-            Context.Notifications.Add(new Notification
+            var reactionNotification = new Notification
             {
                 RecipientUserId = authorId,
                 ActorUserId = _actor.Id,
                 NotificationTypeId = notificationTypeId,
                 PostId = postId,
                 ReactionTypeId = reactionTypeId
-            });
+            };
+            Context.Notifications.Add(reactionNotification);
+            return reactionNotification;
         }
     }
 }

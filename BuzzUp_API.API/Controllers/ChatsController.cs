@@ -1,4 +1,5 @@
 using BuzzUp_API.Application.DTO.Chats;
+using BuzzUp_API.Application.UseCases.Commands.Chats;
 using BuzzUp_API.Application.UseCases.Queries.Chats;
 using BuzzUp_API.Implementation;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,14 @@ namespace BuzzUp_API.API.Controllers
         public IActionResult GetMessages(int id, [FromServices] IGetChatMessagesQuery query)
         {
             return Ok(_handler.HandleQuery(query, id));
+        }
+
+        [HttpPost("{id}/messages")]
+        public IActionResult SendMessage(int id, [FromBody] MessageInsertDTO dto, [FromServices] ISendChatMessageCommand command)
+        {
+            dto.ChatId = id;
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
         }
 
         [HttpPost]

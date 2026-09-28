@@ -45,11 +45,6 @@ namespace BuzzUp_API.DataAccess.Configurations
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //Tags
-            builder.HasMany(x => x.Tags)
-                .WithMany(x => x.Posts)
-                .UsingEntity<PostTag>();
-
             //builder.HasMany(x => x.Likes)
             //    .WithOne(x => x.Track)
             //    .HasForeignKey(x => x.TrackId);

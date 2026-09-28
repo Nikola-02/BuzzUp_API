@@ -1,4 +1,4 @@
-﻿using BuzzUp_API.Domain;
+using BuzzUp_API.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -19,7 +19,6 @@ namespace BuzzUp_API.DataAccess
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserChat> UserChats { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<VisibilityType> VisibilityTypes { get; set; }
         public DbSet<FeelingType> FeelingTypes { get; set; }
         public DbSet<ReactionType> ReactionTypes { get; set; }
@@ -27,7 +26,6 @@ namespace BuzzUp_API.DataAccess
         public DbSet<FriendRequestStatus> FriendRequestStatuses { get; set; }
         public DbSet<PostMedia> PostMedias { get; set; }
         public DbSet<PostMediaType> PostMediaTypes { get; set; }
-        public DbSet<PostTag> PostTags { get; set; }
         public DbSet<SavedPost> SavedPosts { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Notification> Notifications { get; set; }

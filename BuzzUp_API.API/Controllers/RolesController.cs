@@ -1,11 +1,9 @@
 ﻿using BuzzUp_API.Application.DTO;
-using BuzzUp_API.Application.DTO.Users;
-using BuzzUp_API.Application.UseCases.Queries;
+using BuzzUp_API.Application.DTO.Roles;
+using BuzzUp_API.Application.UseCases.Commands.Roles;
 using BuzzUp_API.Application.UseCases.Queries.Roles;
 using BuzzUp_API.Implementation;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BuzzUp_API.API.Controllers
 {
@@ -20,36 +18,32 @@ namespace BuzzUp_API.API.Controllers
             _handler = handler;
         }
 
-        // GET: api/<RolesController>
         [HttpGet]
         public IActionResult Get([FromQuery] TablesSearch search, [FromServices] IGetRolesQuery query)
         {
             return Ok(_handler.HandleQuery(query, search));
         }
 
-        // GET api/<RolesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<RolesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] RoleInsertDTO dto, [FromServices] ICreateRoleCommand command)
         {
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
         }
 
-        // PUT api/<RolesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] RoleUpdateDTO dto, [FromServices] IUpdateRoleCommand command)
         {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
+            return NoContent();
         }
 
-        // DELETE api/<RolesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IDeleteRoleCommand command)
         {
+            _handler.HandleCommand(command, id);
+            return NoContent();
         }
     }
 }

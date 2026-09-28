@@ -1,7 +1,6 @@
-﻿using BuzzUp_API.Application.DTO.Country;
-using BuzzUp_API.Application.DTO.Users;
+using BuzzUp_API.Application.DTO.Country;
+using BuzzUp_API.Application.UseCases.Commands.Country;
 using BuzzUp_API.Application.UseCases.Queries.Country;
-using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.Implementation;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,29 +26,26 @@ namespace BuzzUp_API.API.Controllers
             return Ok(_handler.HandleQuery(query, search));
         }
 
-        // GET api/<CountryController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<CountryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] CountryInsertDTO dto, [FromServices] ICreateCountryCommand command)
         {
+            _handler.HandleCommand(command, dto);
+            return StatusCode(201);
         }
 
-        // PUT api/<CountryController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] CountryUpdateDTO dto, [FromServices] IUpdateCountryCommand command)
         {
+            dto.Id = id;
+            _handler.HandleCommand(command, dto);
+            return NoContent();
         }
 
-        // DELETE api/<CountryController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id, [FromServices] IDeleteCountryCommand command)
         {
+            _handler.HandleCommand(command, id);
+            return NoContent();
         }
     }
 }

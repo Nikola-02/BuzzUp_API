@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +10,7 @@ namespace BuzzUp_API.Application.DTO.Country
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsActive { get; set; }
     }
 }

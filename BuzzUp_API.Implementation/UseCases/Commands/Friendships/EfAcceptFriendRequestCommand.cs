@@ -14,15 +14,18 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
     {
         private readonly FriendshipAcceptValidator _validator;
         private readonly IApplicationActor _actor;
+        private readonly INotificationRealtimeNotifier _notificationRealtimeNotifier;
 
         public EfAcceptFriendRequestCommand(
             BuzzUpContext context,
             FriendshipAcceptValidator validator,
-            IApplicationActor actor)
+            IApplicationActor actor,
+            INotificationRealtimeNotifier notificationRealtimeNotifier)
             : base(context)
         {
             _validator = validator;
             _actor = actor;
+            _notificationRealtimeNotifier = notificationRealtimeNotifier;
         }
 
         public int Id => 18;
@@ -64,14 +67,16 @@ namespace BuzzUp_API.Implementation.UseCases.Commands.Friendships
                 .Select(t => t.Id)
                 .First();
 
-            Context.Notifications.Add(new Notification
+            var friendAcceptedNotification = new Notification
             {
                 RecipientUserId = friendship.SenderUserId,
                 ActorUserId = _actor.Id,
                 NotificationTypeId = friendAcceptedTypeId
-            });
+            };
+            Context.Notifications.Add(friendAcceptedNotification);
 
             Context.SaveChanges();
+            NotificationRealtimePush.NotifyNew(Context, _notificationRealtimeNotifier, friendAcceptedNotification);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BuzzUp_API.Application.DTO.Country;
 using BuzzUp_API.Domain;
 using System;
@@ -14,6 +14,8 @@ namespace BuzzUp_API.Implementation.Profiles
         public CountryProfile()
         {
             CreateMap<Country, CountryDto>();
+            CreateMap<CountryInsertDTO, Country>();
+            CreateMap<CountryUpdateDTO, Country>();
         }
     }
 }
