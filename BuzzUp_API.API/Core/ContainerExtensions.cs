@@ -7,6 +7,7 @@ using BuzzUp_API.Application.UseCases.Commands.Notifications;
 using BuzzUp_API.Application.UseCases.Commands.Posts;
 using BuzzUp_API.Application.UseCases.Commands.Reactions;
 using BuzzUp_API.Application.UseCases.Commands.Users;
+using BuzzUp_API.Application.UseCases.Queries.Chats;
 using BuzzUp_API.Application.UseCases.Queries.Comments;
 using BuzzUp_API.Application.UseCases.Queries.Country;
 using BuzzUp_API.Application.UseCases.Queries.Friendships;
@@ -24,6 +25,7 @@ using BuzzUp_API.Implementation.UseCases.Commands.Notifications;
 using BuzzUp_API.Implementation.UseCases.Commands.Posts;
 using BuzzUp_API.Implementation.UseCases.Commands.Reactions;
 using BuzzUp_API.Implementation.UseCases.Commands.Users;
+using BuzzUp_API.Implementation.UseCases.Queries.Chats;
 using BuzzUp_API.Implementation.UseCases.Queries.Comments;
 using BuzzUp_API.Implementation.UseCases.Queries.Country;
 using BuzzUp_API.Implementation.UseCases.Queries.Friendships;
@@ -68,6 +70,10 @@ namespace BuzzUp_API.API.Core
             services.AddTransient<IGetReactionTypesQuery, EfGetReactionTypesQuery>();
             //Comments
             services.AddTransient<IGetCommentsQuery, EfGetCommentsQuery>();
+            //Chats
+            services.AddTransient<IOpenDirectChatQuery, EfOpenDirectChatQuery>();
+            services.AddTransient<IGetMyChatsQuery, EfGetMyChatsQuery>();
+            services.AddTransient<IGetChatMessagesQuery, EfGetChatMessagesQuery>();
 
             //Commands
             //Users
