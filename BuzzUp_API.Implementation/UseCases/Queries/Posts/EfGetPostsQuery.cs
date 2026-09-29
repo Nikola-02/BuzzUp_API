@@ -48,8 +48,6 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                          (f.ReceiverUserId == actorId && f.SenderUserId == x.UserId)))));
             }
 
-            query = query.OrderByDescending(x => x.CreatedAt);
-
             if (!string.IsNullOrEmpty(search.Keyword))
             {
                 query = query.Where(x => x.Title.Contains(search.Keyword) ||
@@ -60,6 +58,10 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
             {
                 query = query.Where(x => x.UserId == search.UserId.Value);
             }
+
+            query = query
+                .OrderByDescending(x => x.CreatedAt)
+                .ThenByDescending(x => x.Id);
 
             var result = query.AsPagedReponse<Post, PostDTO>(search, Mapper);
             PostReactionSummary.FillPostsWithViewerReactions(Context, actorId, result.Data);

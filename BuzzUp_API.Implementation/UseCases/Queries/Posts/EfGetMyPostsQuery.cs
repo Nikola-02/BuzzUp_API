@@ -30,7 +30,6 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
         {
             var query = Context.Posts
                 .Where(x => x.IsActive && x.DeletedAt == null && x.UserId == _actor.Id)
-                .OrderByDescending(x => x.CreatedAt)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(search.Keyword))
@@ -38,6 +37,10 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                 query = query.Where(x => x.Title.Contains(search.Keyword) ||
                                          (x.Description != null && x.Description.Contains(search.Keyword)));
             }
+
+            query = query
+                .OrderByDescending(x => x.CreatedAt)
+                .ThenByDescending(x => x.Id);
 
             var result = query.AsPagedReponse<Post, PostDTO>(search, Mapper);
             PostReactionSummary.FillPostsWithViewerReactions(Context, _actor.Id, result.Data);

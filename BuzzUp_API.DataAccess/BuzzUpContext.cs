@@ -146,14 +146,14 @@ namespace BuzzUp_API.DataAccess
                     if (entry.Entity is Entity e)
                     {
                         e.IsActive = true;
-                        e.CreatedAt = DateTime.UtcNow;
+                        e.CreatedAt = DateTime.Now;
                     }
                     else if (entry.Entity is CompositeEntity c)
                     {
                         c.IsActive = true;
                         if (c.CreatedAt == default)
                         {
-                            c.CreatedAt = DateTime.UtcNow;
+                            c.CreatedAt = DateTime.Now;
                         }
                     }
                 }
@@ -162,11 +162,11 @@ namespace BuzzUp_API.DataAccess
                 {
                     if (entry.Entity is Entity e)
                     {
-                        e.UpdatedAt = DateTime.UtcNow;
+                        e.UpdatedAt = DateTime.Now;
                     }
                     else if (entry.Entity is CompositeEntity c)
                     {
-                        c.UpdatedAt = DateTime.UtcNow;
+                        c.UpdatedAt = DateTime.Now;
                     }
                 }
             }
