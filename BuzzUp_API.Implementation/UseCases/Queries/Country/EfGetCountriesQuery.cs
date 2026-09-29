@@ -32,7 +32,7 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Country
 
             query = query.OrderBy(country => country.Name).ThenBy(country => country.Id);
 
-            return query.AsPagedReponse<Country, CountryDto>(search, Mapper);
+            return query.AsPagedReponse<global::BuzzUp_API.Domain.Country, CountryDto>(search, Mapper);
         }
     }
 }
