@@ -1,15 +1,11 @@
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using BuzzUp_API.Application.DTO;
 using BuzzUp_API.Application.DTO.Country;
-using BuzzUp_API.Application.UseCases;
 using BuzzUp_API.Application.UseCases.Queries.Country;
-using BuzzUp_API.Application.UseCases.Queries.Users;
 using BuzzUp_API.DataAccess;
-using System;
-using System.Collections.Generic;
+using BuzzUp_API.Domain;
+using BuzzUp_API.Implementation;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BuzzUp_API.Implementation.UseCases.Queries.Country
 {
@@ -23,19 +19,20 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Country
 
         public string Name => "Search Countries";
 
-        public List<CountryDto> Execute(CountrySearch search)
+        public PagedResponse<CountryDto> Execute(CountrySearch search)
         {
-            var query = Context.Countries.AsQueryable();
+            var query = Context.Countries
+                .Where(country => country.IsActive && country.DeletedAt == null)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(search.Keyword))
             {
-                query = query.Where(x => x.Name.Contains(search.Keyword));
+                query = query.Where(country => country.Name.Contains(search.Keyword));
             }
 
-            return query
-                    .Where(country => country.IsActive && country.DeletedAt == null)
-                    .ProjectTo<CountryDto>(Mapper.ConfigurationProvider)
-                    .ToList();
+            query = query.OrderBy(country => country.Name).ThenBy(country => country.Id);
+
+            return query.AsPagedReponse<Country, CountryDto>(search, Mapper);
         }
     }
 }

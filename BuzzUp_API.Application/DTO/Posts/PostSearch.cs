@@ -11,5 +11,6 @@ namespace BuzzUp_API.Application.DTO.Posts
     {
         public int? UserId { get; set; }
         public bool AdminView { get; set; }
+        public string Sort { get; set; }
     }
 }

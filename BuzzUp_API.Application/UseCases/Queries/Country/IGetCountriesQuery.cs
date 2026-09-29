@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BuzzUp_API.Application.UseCases.Queries.Country
 {
-    public interface IGetCountriesQuery : IQuery<List<CountryDto>, CountrySearch>
+    public interface IGetCountriesQuery : IQuery<PagedResponse<CountryDto>, CountrySearch>
     {
     }
 }

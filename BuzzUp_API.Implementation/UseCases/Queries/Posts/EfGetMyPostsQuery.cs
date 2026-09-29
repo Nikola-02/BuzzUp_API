@@ -38,9 +38,10 @@ namespace BuzzUp_API.Implementation.UseCases.Queries.Posts
                                          (x.Description != null && x.Description.Contains(search.Keyword)));
             }
 
-            query = query
-                .OrderByDescending(x => x.CreatedAt)
-                .ThenByDescending(x => x.Id);
+            var sortOldestFirst = string.Equals(search.Sort, "asc", StringComparison.OrdinalIgnoreCase);
+            query = sortOldestFirst
+                ? query.OrderBy(post => post.CreatedAt).ThenBy(post => post.Id)
+                : query.OrderByDescending(post => post.CreatedAt).ThenByDescending(post => post.Id);
 
             var result = query.AsPagedReponse<Post, PostDTO>(search, Mapper);
             PostReactionSummary.FillPostsWithViewerReactions(Context, _actor.Id, result.Data);
